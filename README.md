@@ -1,4 +1,4 @@
 # kuyrcc_website
 Developed using Nodejs and mongodb
 learning purpose
-Changes1
+ installing modules are following :
