@@ -14,8 +14,6 @@ $(document).ready(function(){
         console.log(err);
       }
     });
-
-
   });
 
   $('.delete-contact').on('click', function(e){
@@ -33,4 +31,26 @@ $(document).ready(function(){
       }
     });
   });
+
+//is not actually used but for better delete purpose
+// might be used later
+  $('.delete-comment').on('click', function(e){
+    $target = $(e.target);
+    const id = $target.attr('data-id');
+    //var event_id = $('#eventId_forDeletingComment').val();
+    //var comment_id = $('#commentId_forDelete').val();
+    $.ajax({
+      type: 'DELETE',
+      url: '/users/eventList/comment/'+id,
+      success: function(response){
+        alert('Deleting comment');
+        window.location.href='/users/eventList/comment/'+id;
+      },
+      error: function(err){
+        console.log(err);
+      }
+    });
+  });
+
+
 });

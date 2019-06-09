@@ -1,9 +1,0 @@
-extends layout
-
-block content
-  .container.text-center.col-4
-    h1 #{events.event_name}
-    p #{events.event_body}
-    hr
-    a.btn.btn-default(href="/users/eventList/edit/" + events._id) EDIT
-    a.btn.btn-danger.delete-event(href="#", data-id = events._id) DELETE  

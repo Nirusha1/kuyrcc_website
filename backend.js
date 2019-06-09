@@ -41,6 +41,7 @@ let dbvariable = require('./models/users');
 let eventVariable = require('./models/events');
 let contactVariable = require('./models/contacts');
 let questionVariable = require('./models/questions');
+let commentVariable = require('./models/commentEvent');
 //passport config
 require('./config/passport')(passport);
 
@@ -74,8 +75,6 @@ backend.use(bodyParser.json())
 //setting global variables
 backend.use(function(req,res,next){
 		res.locals.usersGlobal = req.session.users ;
-		console.log('from backend.use');
-		console.log(res.locals.usersGlobal);
 		next();
 });
 
@@ -292,11 +291,6 @@ backend.post('/:id', function(req, res){
 			});
 	}
 });
-
-//this is just to itest
-backend.get('/test',function(req,res){
-	res.render('test');
-})
 
 //Route Files
 let events = require('./routes/events');

@@ -46,7 +46,8 @@ block content
 										//p.card-text.text-light  #{event.event_body}
 										p.card-text.text-light.text-left.font-italic Location:  #{event.event_location}
 										p.card-text.text-light.text-left.font-italic  Date: #{event.event_date}
-									
+										a(href="/users/eventList/comment/" + event._id)
+											button.btn.btn-warning.float-md-right(type='button') Leave a Comment
 										
 				
 	
