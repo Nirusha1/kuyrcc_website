@@ -15,7 +15,7 @@ router.get('/CreateEvent',ensureAuthenticated, function(req, res){
 });
 
 //Get Single Event
-router.get('/:id', function(req, res){
+router.get('/*', function(req, res){
 	eventVariable.findById(req.params.id, function(err, events){
 		res.render('single_event',{
 			events: events
@@ -23,19 +23,19 @@ router.get('/:id', function(req, res){
 	});
 });
 //for checking if events are created in database or not route
-router.get('/events/single_event', function(req, res){
-	eventVariable.find({}, function(err, events){
-		if(err){
-			console.log(err);
-		}
-		else{
-			res.render('eventList',{
-				title:'All Events',
-				events: events
-			});
-		}
-	});
-});
+//router.get('/events/single_event', function(req, res){
+//	eventVariable.find({}, function(err, events){
+//		if(err){
+//			console.log(err);
+//		}
+//		else{
+//			res.render('eventList',{
+//				title:'All Events',
+//				events: events
+//			});
+//		}
+//	});
+//});
 
 //add event creation and submission route
 router.post('/CreateEvent', function(req, res){
@@ -47,6 +47,12 @@ router.post('/CreateEvent', function(req, res){
 	x.event_Userid = req.user.id
 	x.event_location=req.body.event_location;
 	x.event_date=req.body.event_date;
+	x.eventVolunteerNo=req.body.eventVolunteerNo;
+	x.volunteer_name=req.body.volunteer_name;
+	x.volunteer_address=req.body.volunteer_address;
+	x.volunteer_phone=req.body.volunteer_phone;
+	x.volunteer_fb=req.body.volunteer_fb;
+	x.volunteer_email=req.body.volunteer_email;
 
 	x.save(function(err){
 		if(err){
@@ -91,6 +97,7 @@ router.post('/edit/:id', function(req, res){
 	x.event_body=req.body.event_body;
 	x.event_location=req.body.event_location;
 	x.event_date=req.body.event_date;
+	x.eventVolunteerNo=req.body.eventVolunteerNo;
 
 	//console.log(req.body.event_name);
 

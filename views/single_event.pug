@@ -1,9 +1,47 @@
 extends layout
 
 block content
-  .container.text-center.col-4
-    h1 #{events.event_name}
-    p #{events.event_body}
-    hr
-    a.btn.btn-default(href="/users/eventList/edit/" + events._id) EDIT
-    a.btn.btn-danger.delete-event(href="#", data-id = events._id) DELETE  
+	
+
+	if events
+		each event, j in events
+			.row.bg-dark
+
+				if event.event_date > moment().format('MM/DD/YYYY')
+					h1.card-title.text-danger.text-center #{event.event_name}
+					h8.text-warning.text-right.font-italic.font-weight-bold.ml-5.mt-5  @ #{event.event_UserName}
+					h8.text-warning.text-right.font-italic.font-weight-bold.ml-5.mt-5 	Leave a comment
+					if usersGlobal
+							if usersGlobal.id == event.event_Userid
+								
+								a(href="/users/eventList/edit" + events._id)
+									button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') Edit / Delete
+								if event.eventVolunteerNo
+									a(href="/users/volunteers/ViewVolunteers")
+										button.btn.ml-5.mt-5.btn-info.waves-effect.mr-0.float-md-right(type='button', data-toggle='collapse', data-target='#volunteer_form') View Volunteers
+					h1.card-title.text-danger .....................................................................................................................
+					.col-xl
+						p.card-body.text.text-light.text-center  #{event.event_body}
+					.col-xl
+						p.card-body.text.text-light.font-italic Location:  #{event.event_location}
+					.col-xl
+						p.card-.body.text-light.font-italic.mt-3 Event Date: #{event.event_date}
+
+					br
+					br
+					br
+					br
+					
+					if event.eventVolunteerNo
+						p.card-body-text.text-primary.text-left.font-italic.font-weight-bold.mt-5 Voulnteers on CALL
+						p.card-text.text-primary.text-left.font-italic.font-weight-bold.mt-5 || Please fill the volunteer forms  asap  
+						a(href="/users/volunteers/CreateVolunteers")
+							button.btn.btn-info.ml-5.mt-5.waves-effect.mr-0.float-md-right(type='button', data-toggle='collapse') Volunteer Form
+							
+								
+
+
+								
+
+			br
+			br

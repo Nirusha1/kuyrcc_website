@@ -24,37 +24,44 @@ block content
 		a.carousel-control-next(href='#slides', data-slide='next')
 			span.carousel-control-next-icon
 	// - Jumbotron
+
+
+	p.text-info.font-weight-bold.font-italic ..............................................................................................................Current Date: #{moment().format('MM/DD/YYYY')}..................................................................................................
 	
 	// event sections
 	if events
-		
 		.row
 			each event, j in events	
+				if event.event_date > moment().format('MM/DD/YYYY')
+					.col-sm-6
+						a(href="/eventdetails")
+							.card-deck.mb-5
+								.card.bg-success
+									.card.body.text-center
+										.card.bg-dark
+											h8.card-title.text-warning.text-center.font-italic.font-weight-light By: #{event.event_UserName}
+												if usersGlobal
+													if usersGlobal.id == event.event_Userid
+														a(href="/users/eventList/edit" + events._id)
+															button.btn.btn-warning.float-md-right(type='button') Edit / Delete
+											a(href="/eventdetails")
+												h3.card-title.text-danger #{event.event_name}
+												//p.card-text.text-light  #{event.event_body}
+												p.card-text.text-light.text-left.font-italic Location:  #{event.event_location}
+												p.card-text.text-light.text-left.font-italic  Date: #{event.event_date}
+												if event.eventVolunteerNo
+														p.card-text.text-success.text-left.font-italic.font-weight-bold Voulnteers on CALL
+														p.card-text.text-success.text-left.font-italic.font-weight-bold || Please fill the volunteer forms  asap
+											
 
-				.col-sm-6.view.overlay.zoom
-					a(href="/")
-						.card-deck.mb-5
-							.card.bg-success
-								.card.body.text-center
-									.card.bg-dark
-										h8.card-title.text-warning.text-center.font-italic.font-weight-light By: #{event.event_UserName}
-											if usersGlobal
-												if usersGlobal.id == event.event_Userid
-													a(href="/users/eventList/edit/" + event._id)
-														button.btn.btn-warning.float-md-right(type='button') Edit / Delete
-										h3.card-title.text-danger #{event.event_name}
-										//p.card-text.text-light  #{event.event_body}
-										p.card-text.text-light.text-left.font-italic Location:  #{event.event_location}
-										p.card-text.text-light.text-left.font-italic  Date: #{event.event_date}
-									
-										
-				
+		br
+		br
+		br
+		br
+		br
+		br
+
 	
-
-	br
-	br
-	br
-
 
 	// - Welcome Section
 	.container

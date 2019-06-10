@@ -19,6 +19,7 @@ db.once('open', function(){
 	console.log('connected to mongoDB');
 });
 
+
 //check for db errors
 db.on('error', function(err){
 	console.log(err);
@@ -41,6 +42,7 @@ let dbvariable = require('./models/users');
 let eventVariable = require('./models/events');
 let contactVariable = require('./models/contacts');
 let questionVariable = require('./models/questions');
+let volunteerVariable=require('./models/volunteers');
 //passport config
 require('./config/passport')(passport);
 
@@ -156,6 +158,20 @@ backend.get('/registerPage', function(req, res){
 //adding membership form to routes
 backend.get('/form/membership',function(req,res){
 	res.render('membershipForm');
+});
+
+backend.get('/eventdetails', function(req,res){
+	eventVariable.find({}, function(err, events){
+	if(err){
+		console.log(err);
+		}
+		else{
+			res.render('single_event',{
+
+				events: events
+			});
+		}
+	});
 });
 
 //adding contact to routes
@@ -301,8 +317,12 @@ backend.get('/test',function(req,res){
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');
+let volunteers=require('./routes/volunteers');
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
+backend.use('/users/volunteers',volunteers);
+
+backend.locals.moment=require('moment');
 
 //to start server
 backend.listen(3000,function(){

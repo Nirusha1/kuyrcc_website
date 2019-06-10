@@ -28,8 +28,12 @@ let eventSchema = mongoose.Schema({
 	event_date:{
 		type:String,
 		required: true
-	}
+	},
 
+	eventVolunteerNo:{
+		type:String,
+		require:false
+	}
 
 
 });

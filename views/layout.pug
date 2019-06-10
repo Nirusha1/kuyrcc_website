@@ -49,8 +49,14 @@ html
 
 							li.nav-item.active
 								.text.text-dark.font-italic.font-weight-bold.ml-5.mb-2 #{usersGlobal.name}
-								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button') Notificaions
-									span.badge.badge-danger.ml-1 4
+								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button',data-toggle='dropdown') Notificaions
+									span.badge.badge-danger.ml-1 4	
+										.dropdown-menu
+											li Notification 1
+											li Notification 2
+											li Notification 3
+
+																						
 								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log out
 
 								

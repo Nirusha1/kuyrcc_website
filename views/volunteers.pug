@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	.container.text-center.col-4
+		form(method='POST', action='/users/volunteers/CreateVolunteers')
+			#form-group
+				label Name:
+				input.form-control(name='volunteer_name',type='text')
+				
+			#form-group
+				label Address:
+				textarea.form-control(name='volunteer_address',row='5',type='text')
+
+			#form-group
+				label Phone Number:
+				textarea.form-control(name='volunteer_phone',row='5',type='text')
+
+			#form-group
+				label Facebook ID:
+				textarea.form-control(name='volunteer_fb',row='5',type='text')
+
+			#form-group
+				label Email:
+				textarea.form-control(name='volunteer_email',row='5',type='text')
+
+			input.btn.btn-primary(type='submit', value="Create")
