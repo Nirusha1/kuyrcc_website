@@ -48,11 +48,7 @@ router.post('/CreateEvent', function(req, res){
 	x.event_location=req.body.event_location;
 	x.event_date=req.body.event_date;
 	x.eventVolunteerNo=req.body.eventVolunteerNo;
-	x.volunteer_name=req.body.volunteer_name;
-	x.volunteer_address=req.body.volunteer_address;
-	x.volunteer_phone=req.body.volunteer_phone;
-	x.volunteer_fb=req.body.volunteer_fb;
-	x.volunteer_email=req.body.volunteer_email;
+	
 
 	x.save(function(err){
 		if(err){
