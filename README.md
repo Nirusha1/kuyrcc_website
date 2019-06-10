@@ -8,3 +8,12 @@ mongoose
 nodemon
 pug
 body-parser
+Express-Validator
+Express-session
+Express-messages
+Moment(For date and time)
+flash
+passport
+passport-local
+mongoose-unique-validator
+
