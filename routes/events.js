@@ -24,6 +24,7 @@ router.get('/:id', function(req, res){
 		});
 	});
 });
+/* Nirusha commented it
 //for checking if events are created in database or not route
 router.get('/events/single_event', function(req, res){
 	eventVariable.find({}, function(err, events){
@@ -38,7 +39,7 @@ router.get('/events/single_event', function(req, res){
 		}
 	});
 });
-
+*/
 //add event creation and submission route
 router.post('/CreateEvent', function(req, res){
 	console.log('submitted');
@@ -49,6 +50,7 @@ router.post('/CreateEvent', function(req, res){
 	x.event_Userid = req.user.id
 	x.event_location=req.body.event_location;
 	x.event_date=req.body.event_date;
+	x.eventVolunteerNo=req.body.eventVolunteerNo;
 
 	x.save(function(err){
 		if(err){
@@ -90,6 +92,7 @@ router.post('/edit/:id', function(req, res){
 	x.event_body=req.body.event_body;
 	x.event_location=req.body.event_location;
 	x.event_date=req.body.event_date;
+	x.eventVolunteerNo=req.body.eventVolunteerNo;
 
 	let query = {_id:req.params.id}
 	eventVariable.update(query, x, function(err){
@@ -101,9 +104,6 @@ router.post('/edit/:id', function(req, res){
 			res.redirect('/');
 		}
 	});
-
-	return;
-	console.log('updated');
 });
 
 //deleting events

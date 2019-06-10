@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    .container
+    h1.text-center Lists of Volunteers
+    .row
+        .col
+            h3 Name
+        .col
+            h3 Address
+        .col
+            h3 Phone
+        .col
+            h3 Facebook
+        .col
+            h3 Emails
+    each volunteer, i in volunteers
+        .row
+            .col
+                p #{volunteer.volunteer_name}
+            .col
+                p #{volunteer.volunteer_address}
+            .col
+                p #{volunteer.volunteer_phone}
+            .col
+                p #{volunteer.volunteer_fb}
+            .col
+                p #{volunteer.volunteer_email}
+
+  
