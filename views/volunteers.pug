@@ -2,7 +2,7 @@ extends layout
 
 block content
 	.container.text-center.col-4
-		form(method='POST', action='/users/volunteers/CreateVolunteers')
+		form(method='POST', action='/users/volunteers/CreateVolunteers/'+ events._id)
 			#form-group
 				label Name:
 				input.form-control(name='volunteer_name',type='text')
@@ -22,5 +22,7 @@ block content
 			#form-group
 				label Email:
 				textarea.form-control(name='volunteer_email',row='5',type='text')
+
+			
 
 			input.btn.btn-primary(type='submit', value="Create")
