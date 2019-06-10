@@ -2,7 +2,10 @@ extends layout
 
 block content
 	.container.text-center.col-4
-		form(method='POST', action='/users/eventList/CreateEvent')
+		form(method='POST', action='/users/eventList/CreateEvent',enctype="multipart/form-data")
+			#form-group
+				label Upload Image:
+				input#filetoUpload.form-control(name='events_image', type='file')
 			#form-group
 				label Event Title:
 				input.form-control(name='event_name',type='text')
