@@ -22,7 +22,7 @@ function ensureAuthenticated(req, res, next){
 //Adding Comment for Event
 router.get('/:id',ensureAuthenticated,  function(req, res){
 	commentVariable.find({comment_event_id:req.params.id}, function(err, comments){
-	replyVariable.find({},function(err,replies){
+	replyVariable.find({reply_event_id:req.params.id},function(err,replies){
 	eventVariable.findById(req.params.id, function(err, events){
 		res.render('comment_event',{
 			events: events,
@@ -102,7 +102,7 @@ router.delete('/:eventID/:commentId',ensureAuthenticated,  function(req, res){
 
 //deleting comments
 router.get('/:eventID/:commentID/deleteComment', function(req, res){
-	replyVariable.find({},function(err,replies){
+	replyVariable.find({reply_event_id:req.params.eventID},function(err,replies){
 		commentVariable.findOneAndDelete(req.params.commentID, function(err,deletedComments){
 			eventVariable.findById(req.params.eventID, function(err, events){
 				commentVariable.find({comment_event_id:req.params.eventID}, function(err, comments){
@@ -172,7 +172,7 @@ router.get('/:eventID/:replyID/deleteReply/', function(req, res){
 	replyVariable.findOneAndDelete(req.params.replyID,function(err,deletedReply){
 		eventVariable.findById(req.params.eventID, function(err, events){
 			commentVariable.find({comment_event_id:req.params.eventID}, function(err, comments){
-				replyVariable.find({},function(err,replies){
+				replyVariable.find({reply_event_id:req.params.eventID},function(err,replies){
 					res.render('comment_event',{
 						events: events,
 						comments : comments,

@@ -10,8 +10,12 @@ const config=require('./config/database');
 const bcrypt=require('bcryptjs');
 
 
+
 //mongoose.connect('mongodb://localhost:27017/KUYRCCdb');
-mongoose.connect(config.database);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.connect("mongodb://localhost:27017/KUYRCCdb", { useNewUrlParser: true });
 let db = mongoose.connection;
 //this line was added
 //check db connection
