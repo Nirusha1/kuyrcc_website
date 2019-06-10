@@ -14,10 +14,10 @@ block content
 					if usersGlobal
 							if usersGlobal.id == event.event_Userid
 								
-								a(href="/users/eventList/edit" + events._id)
+								a(href="/users/eventList/edit/" + event._id)
 									button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') Edit / Delete
 								if event.eventVolunteerNo
-									a(href="/users/volunteers/ViewVolunteers")
+									a(href="/users/volunteers/ViewVolunteers/"+event._id)
 										button.btn.ml-5.mt-5.btn-info.waves-effect.mr-0.float-md-right(type='button', data-toggle='collapse', data-target='#volunteer_form') View Volunteers
 					h1.card-title.text-danger .....................................................................................................................
 					.col-xl
@@ -35,10 +35,8 @@ block content
 					if event.eventVolunteerNo
 						p.card-body-text.text-primary.text-left.font-italic.font-weight-bold.mt-5 Voulnteers on CALL
 						p.card-text.text-primary.text-left.font-italic.font-weight-bold.mt-5 || Please fill the volunteer forms  asap  
-						a(href="/users/volunteers/CreateVolunteers")
+						a(href="/users/volunteers/CreateVolunteers/"+event._id)
 							button.btn.btn-info.ml-5.mt-5.waves-effect.mr-0.float-md-right(type='button', data-toggle='collapse') Volunteer Form
-							
-								
 
 
 								
