@@ -1,0 +1,31 @@
+extends layout
+
+block content
+	.container.text-center.col-4
+			
+		form(method='POST', action='/users/eventList/CreateEvent', enctype="multipart/form-data")
+			#form-group
+				label Upload Image:
+				input#filetoUpload.form-control(name='events_image', type='file')
+			#form-group
+				label Event Title:
+				input.form-control(name='event_name',type='text')
+			#form-group
+				label Event Informations:
+				textarea.form-control(name='event_body',row='5',type='text')
+
+			#form-group
+				label Event Location:
+				textarea.form-control(name='event_location',row='5',type='text')
+
+			#form-group
+				label Event Date:	
+				input#datepicker.form-control.col-8(placeholder="Enter Event Date",name='event_date')
+				script.
+					$('#datepicker').datepicker({
+					uiLibrary: 'bootstrap4'
+					});
+
+			input.btn.btn-primary(type='submit', value="CREATE")
+
+			

@@ -41,8 +41,6 @@ let dbvariable = require('./models/users');
 let eventVariable = require('./models/events');
 let contactVariable = require('./models/contacts');
 let questionVariable = require('./models/questions');
-let commentVariable = require('./models/commentEvent');
-let volunteerVariable=require('./models/volunteers');
 //passport config
 require('./config/passport')(passport);
 
@@ -76,6 +74,8 @@ backend.use(bodyParser.json())
 //setting global variables
 backend.use(function(req,res,next){
 		res.locals.usersGlobal = req.session.users ;
+		console.log('from backend.use');
+		console.log(res.locals.usersGlobal);
 		next();
 });
 
@@ -148,7 +148,7 @@ backend.get('/frontend', function(req, res){
 });
 
 //add route
-backend.get('/registerPage/', function(req, res){
+backend.get('/registerPage', function(req, res){
 	res.render('register',{
 		title:'Register'
 	});
@@ -156,20 +156,6 @@ backend.get('/registerPage/', function(req, res){
 //adding membership form to routes
 backend.get('/form/membership',function(req,res){
 	res.render('membershipForm');
-});
-
-backend.get('/eventdetails', function(req,res){
-	eventVariable.find({}, function(err, events){
-	if(err){
-		console.log(err);
-		}
-		else{
-			res.render('single_event',{
-
-				events: events
-			});
-		}
-	});
 });
 
 //adding contact to routes
@@ -230,8 +216,36 @@ backend.get('/checklist', function(req, res){
 		});
 	});
 
+/*
+//add login route
+backend.post('/:id', function(req, res){
+	const email=req.body.LoginEmail;
+	const pwd=req.body.LoginPassword;
+	console.log("login process");
+	req.checkBody('LoginEmail','Email is required').notEmpty();
+	req.checkBody('LoginEmail','Email is not valid').isEmail();
+	req.checkBody('LoginPassword','Password is required').notEmpty();
+	req.checkBody('LoginPassword','wrong password').equals(req.body.LoginPassword);
+	let errors = req.validationErrors();
+	if(errors){
+		res.render('frontend',{
+			errors:errors
+		});
+	}else{
+		req.flash('success','You are logged in');
+		dbvariable.findUserByEmail(email,function(err,users){
+			res.render('frontend',{
+				title:"Users Found",
+				users:users,
+			});
+		});
+		// res.locals.userGolbal = req.users;
+		// console.log(req.users);
+	}
+});
+*/
 //add registration route
-backend.post('/registerPage/', function(req, res){
+backend.post('/:id', function(req, res){
 	const name=req.body.RegName;
 	const email=req.body.RegEmail;
 	const pwd=req.body.RegPassword;
@@ -247,7 +261,7 @@ backend.post('/registerPage/', function(req, res){
 
 	let errors = req.validationErrors();
 	if(errors){
-		res.render('register',{
+		res.render('frontend',{
 			errors:errors
 		});
 	}else{
@@ -256,6 +270,7 @@ backend.post('/registerPage/', function(req, res){
 				email:email,
 				pwd:pwd,
 				conpwd:conpwd
+
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -266,12 +281,12 @@ backend.post('/registerPage/', function(req, res){
 					x.pwd=hash;
 					x.save(function(err){
 						if(err){
-							req.flash('success','UserName and Email must be Unique');
-							res.redirect('/registerPage/');
+							console.log(err);
+							return;
 						}
 						else{
 							req.flash('success','You  are now registered and can now log in');
-							res.redirect('/registerPage/');
+							res.redirect('frontend');
 						}
 					});
 				});
@@ -279,17 +294,16 @@ backend.post('/registerPage/', function(req, res){
 	}
 });
 
+//this is just to itest
+backend.get('/test',function(req,res){
+	res.render('test');
+})
+
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');
-let commentsReplies = require('./routes/commentsReplies');
-let volunteers=require('./routes/volunteers');
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
-backend.use('/users/eventList/comment/',commentsReplies);
-backend.use('/users/volunteers',volunteers);
-
-backend.locals.moment=require('moment');
 
 //to start server
 backend.listen(3000,function(){
