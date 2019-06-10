@@ -1,16 +1,24 @@
 extends layout
 
-
 block content
-	#SignUp.container.h-100
-		.row.h-100.text-center.justify-content-center.align-items-center
-			form.form-group(method='POST', action='/KUYRCC/SignUP/')
-				label Name:
-				input#name.form-control(name="name",type='text')
-				label(for='email') Email address:
-				input#email.form-control(name="email",type='email')
+	.container.justify-content-center.text-center
+		!= messages('message',locals)
+	.container.text-left.justify-content-center.col-6.my-3
+		if errors
+			each error, i in errors
+				div(class="alert alert-danger") #{error.msg}
+		form(method="POST",action='/registerPage/')
+			.form-group.md-form.mb-4
+				label(for='text') UserName
+				input#text.form-control(type='text', placeholder='Enter name', name='RegName')
+			.form-group.md-form.mb-4
+				label(for='email') Email:
+				input#email.form-control(type='email', placeholder='Enter email', name='RegEmail')
+			.form-group.md-form.mb-4
 				label(for='pwd') Password:
-				input#pwd.form-control(name="password",type='password')
+				input#pwd.form-control(type='password', placeholder='Enter password', name='RegPassword')
+			.form-group.md-form.mb-4
 				label(for='pwd') Confirm Password:
-				input#pwd.form-control(type='password')
-				button.btn.btn-primary.mt-3(type='submit', value='Submit') Register
+				input#pwd.form-control(type='password', placeholder='Enter password again', name='RegCPassword')
+			.form-group.md-form.mb-4
+				button.btn.btn-deep-orange(type='submit', value="submit") Sign Up

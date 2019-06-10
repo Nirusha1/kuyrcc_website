@@ -147,7 +147,7 @@ backend.get('/frontend', function(req, res){
 });
 
 //add route
-backend.get('/registerPage', function(req, res){
+backend.get('/registerPage/', function(req, res){
 	res.render('register',{
 		title:'Register'
 	});
@@ -214,36 +214,9 @@ backend.get('/checklist', function(req, res){
 			}
 		});
 	});
-/*
-//add login route
-backend.post('/:id', function(req, res){
-	const email=req.body.LoginEmail;
-	const pwd=req.body.LoginPassword;
-	console.log("login process");
-	req.checkBody('LoginEmail','Email is required').notEmpty();
-	req.checkBody('LoginEmail','Email is not valid').isEmail();
-	req.checkBody('LoginPassword','Password is required').notEmpty();
-	req.checkBody('LoginPassword','wrong password').equals(req.body.LoginPassword);
-	let errors = req.validationErrors();
-	if(errors){
-		res.render('frontend',{
-			errors:errors
-		});
-	}else{
-		req.flash('success','You are logged in');
-		dbvariable.findUserByEmail(email,function(err,users){
-			res.render('frontend',{
-				title:"Users Found",
-				users:users,
-			});
-		});
-		// res.locals.userGolbal = req.users;
-		// console.log(req.users);
-	}
-});
-*/
+
 //add registration route
-backend.post('/:id', function(req, res){
+backend.post('/registerPage/', function(req, res){
 	const name=req.body.RegName;
 	const email=req.body.RegEmail;
 	const pwd=req.body.RegPassword;
@@ -259,7 +232,7 @@ backend.post('/:id', function(req, res){
 
 	let errors = req.validationErrors();
 	if(errors){
-		res.render('frontend',{
+		res.render('register',{
 			errors:errors
 		});
 	}else{
@@ -268,7 +241,6 @@ backend.post('/:id', function(req, res){
 				email:email,
 				pwd:pwd,
 				conpwd:conpwd
-
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -279,12 +251,12 @@ backend.post('/:id', function(req, res){
 					x.pwd=hash;
 					x.save(function(err){
 						if(err){
-							console.log(err);
-							return;
+							req.flash('success','UserName and Email must be Unique');
+							res.redirect('/registerPage/');
 						}
 						else{
 							req.flash('success','You  are now registered and can now log in');
-							res.redirect('frontend');
+							res.redirect('/registerPage/');
 						}
 					});
 				});
@@ -295,8 +267,10 @@ backend.post('/:id', function(req, res){
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');
+let commentsReplies = require('./routes/commentsReplies')
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
+backend.use('/users/eventList/comment/',commentsReplies);
 
 //to start server
 backend.listen(3000,function(){

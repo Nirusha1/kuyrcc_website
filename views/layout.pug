@@ -51,11 +51,7 @@ html
 								.text.text-dark.font-italic.font-weight-bold.ml-5.mb-2 #{usersGlobal.name}
 								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button') Notificaions
 									span.badge.badge-danger.ml-1 4
-								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log out
-
-								
-
-
+								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log Out
 							li.nav-item.active
 								a(href='/users/eventList/CreateEvent')
 									button.btn.ml-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') Create Events
@@ -66,7 +62,7 @@ html
 							li
 								button.btn.btn-outline-info.waves-effect.ml-0.float-md-right(type='button', data-toggle='modal', data-target='#modalLoginForm') Log In
 							li
-								button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button', data-toggle='modal', data-target='#modalRegisterForm') Sign Up
+								a.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(href='/registerPage/') Sign Up
 						
 		
 		// -MODAL login and signup forms
@@ -90,31 +86,6 @@ html
 									|  Remember me
 							.form-group.md-form.mb-5
 								button.btn.btn-deep-orange(type='submit', value='Sumbit') Log In
-		#modalRegisterForm.modal.fade(tabindex='-1', role='dialog')
-			.modal-dialog(role='document')
-				.modal-content
-					.modal-header.text-center
-						h4.modal-title.w-100.font-weight-bold Sign up
-						button.close(type='button', data-dismiss='modal')
-					.modal-body.mx-3
-						if errors
-							each error, i in errors
-								div(class="alert alert-danger") #{error.msg}
-						form(method="POST",action='/frontend')
-							.form-group.md-form.mb-4
-								label(for='text') Name
-								input#text.form-control(type='text', placeholder='Enter name', name='RegName')
-							.form-group.md-form.mb-4
-								label(for='email') Email:
-								input#email.form-control(type='email', placeholder='Enter email', name='RegEmail')
-							.form-group.md-form.mb-4
-								label(for='pwd') Password:
-								input#pwd.form-control(type='password', placeholder='Enter password', name='RegPassword')
-							.form-group.md-form.mb-4
-								label(for='pwd') Confirm Password:
-								input#pwd.form-control(type='password', placeholder='Enter password again', name='RegCPassword')
-							.form-group.md-form.mb-4
-								button.btn.btn-deep-orange(type='submit', value="submit") Sign Up
 		
 		.container
 			block content
