@@ -1,0 +1,8 @@
+.container.text-center.justify-content-center
+  h3 Click on Verify Account to verify your account to KUYRCC Website
+  br
+  //nameVerification and randNoVerification is from backend.get('../verify/..')
+  form(method= 'POST', action= '/'+nameVerification+'/verify/'+randNoVerification)
+    //input.form-control(name = 'UserId_forVerification', type = 'hidden', value = contacts.Name)
+    .container.row.justify-content-center.my-3
+      input.btn.btn-primary.mx-1(type='submit', value="Verify Account")

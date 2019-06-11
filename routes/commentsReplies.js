@@ -6,18 +6,6 @@ let eventVariable = require('../models/events');
 let commentVariable = require('../models/commentEvent')
 let replyVariable = require('../models/replyToComment')
 
-//Access Control
-function ensureAuthenticated(req, res, next){
-	if (req.isAuthenticated()){
-		return next();
-	}
-	else{
-		req.flash('danger', 'Please Login');
-		res.redirect('/frontend');
-
-	}
-}
-
 //comments and replies
 //Adding Comment for Event
 router.get('/:id',ensureAuthenticated,  function(req, res){

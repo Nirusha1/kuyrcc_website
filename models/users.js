@@ -13,7 +13,14 @@ let userSchema=mongoose.Schema({
 		required: true,
 		unique: true
 	},
-
+	user_auth:{
+		type:Boolean,
+		required:true
+	},
+	random_number:{
+		type:String,
+		required:false
+	},
 	pwd:{
 		type:String,
 		required: true

@@ -8,8 +8,8 @@ const flash =  require('connect-flash');
 const session = require('express-session');
 const config=require('./config/database');
 const bcrypt=require('bcryptjs');
-
-
+//for email verification
+const nodemailer = require('nodemailer');
 
 //mongoose.connect('mongodb://localhost:27017/KUYRCCdb');
 mongoose.set('useNewUrlParser', true);
@@ -234,12 +234,42 @@ backend.get('/checklist', function(req, res){
 		});
 	});
 
+//verifying user
+backend.get('/:nameParam/Verify/:randNo/',function(req,res){
+	res.render('verifyUser',{
+		title: 'Verify Your Account',
+		nameVerification: req.params.nameParam,
+		randNoVerification: req.params.randNo
+	});
+});
+
+backend.post('/:nameParam/Verify/:randNoParam',function(req,res){
+	let x= {};
+	x.user_auth=true;
+	let query = {name:req.params.nameParam,pass:req.randNoParam}
+	dbvariable.update(query, x, function(err){
+		if(err){
+			console.log(err);
+			return;
+		}
+		else{
+			req.flash('success','You have been Registered Successfully.')
+			res.redirect('/frontend');
+		}
+	});
+});
+
+//function to generate random number for user verification
+function randomNumber(low, high) {
+  return Math.floor(Math.random() * (high - low) + low)
+}
 //add registration route
 backend.post('/registerPage/', function(req, res){
 	const name=req.body.RegName;
 	const email=req.body.RegEmail;
 	const pwd=req.body.RegPassword;
 	const conpwd=req.body.RegCPassword;
+	const random_number= randomNumber(1000000,9000000);
 	req.checkBody('RegName','UserName is required').notEmpty();
 	req.checkBody('RegPassword')
 		    .not().isIn(['123', 'password', 'god']).withMessage('Do not use a common word as the password')
@@ -259,7 +289,9 @@ backend.post('/registerPage/', function(req, res){
 				name:name,
 				email:email,
 				pwd:pwd,
-				conpwd:conpwd
+				conpwd:conpwd,
+				user_auth:false,
+				random_number:random_number
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -274,15 +306,54 @@ backend.post('/registerPage/', function(req, res){
 							res.redirect('/registerPage/');
 						}
 						else{
-							req.flash('success','You  are now registered and can now log in');
-							res.redirect('/registerPage/');
-						}
+							//for email verification
+							var transporter = nodemailer.createTransport({
+							 service: 'gmail',
+							 auth: {
+							   //username and password of the sender is kept here
+							        user: 'project.cropta@gmail.com',
+							        pass: 'blank password'
+							    }
+							});
+
+							var mailOptions = {
+							    from: 'project.cropta@gmail.com',
+							    to: email, // email is taken from FORM
+							    subject: 'Welcome to KUYRCC site',
+							    text: 'click on the link to verify this email. http://localhost:3000/'+name+'/Verify/'+ random_number
+							}
+
+							transporter.sendMail(mailOptions, function (err, res) {
+							    if(err){
+							        console.log('User Created but Mail not sent');
+							    } else {
+							    		console.log('Email has been Sent');
+							    }
+							});
+								req.flash('success','Email Has Been Sent to your account for verification');
+								res.redirect('/registerPage/');
+									}
 					});
 				});
 			});
 	}
 });
 
+//Access Control
+global.ensureAuthenticated= function(req, res, next){
+	if (req.isAuthenticated()){
+    if (req.user.user_auth){
+      return next();
+    }else{
+      req.flash('danger','Your Account is not Verified');
+      res.redirect('/frontend');
+    }
+	}
+	else{
+		req.flash('danger', 'Please Login');
+		res.redirect('/frontend');
+	}
+}
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');

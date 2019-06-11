@@ -88,17 +88,7 @@ router.post('/CreateEvent', function(req, res){
 	});
 });
 
-//Access Control
-function ensureAuthenticated(req, res, next){
-	if (req.isAuthenticated()){
-		return next();
-	}
-	else{
-		req.flash('danger', 'Please Login');
-		res.redirect('/frontend');
 
-	}
-}
 
 //Edit Event
 router.get('/edit/:id',ensureAuthenticated,  function(req, res){
