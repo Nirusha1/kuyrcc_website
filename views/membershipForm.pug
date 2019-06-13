@@ -2,32 +2,44 @@ extends layout
 
 block content
   .container.text-center.mt-4
+    p //this button will be available to admin only
+    a.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(href='/members/memberList/') Members list
+
+  
+  .container.text-center.mt-4
     h1 MemberShip Form
   .container.text-left.col-8.justify-content-center
     if MembErrors
       each error, i in MemErrors
         div(class="alert alert-danger") #{error.msg}
-    form.was-validated(method="POST",action='/form/membership')
+    form.was-validated(method="POST",action='/members/form/')
       .form-group.mt-4.row
         .col-sm
           label(for='text') First Name
-          input#text.form-control(type='text', placeholder='First name', name='MemFirstName')
+          input#text.form-control(type='text', placeholder='First name', name='member_Fname')
         .col-sm
           label(for='text') Middle Name
-          input#text.form-control(type='text', placeholder='Middle name', name='MemMiddleName')
+          input#text.form-control(type='text', placeholder='Middle name', name='member_Mname')
         .col-sm
           label(for='text') Last Name
-          input#text.form-control(type='text', placeholder='Last name', name='MemLastName')
+          input#text.form-control(type='text', placeholder='Last name', name='member_Lname')
       .form-group
         label(for='email') Email:
-        input#email.form-control(type='email', placeholder='example@gmail.com', name='MemEmail')
+        input#email.form-control(type='email', placeholder='example@gmail.com', name='member_email')
       .form-group
         label(for='text') Contact Number:
-        input#pwd.form-control(type='number', placeholder='Mobile number', name='MemPhone')
+        input#pwd.form-control(type='number', placeholder='Mobile number', name='member_phone')
+      .form-group
+        label(for='text') Date of Birth 
+        input#datepicker.form-control.col-8(placeholder="Enter Date of Birth", name='member_DOB')
+        script.
+          $('#datepicker').datepicker({
+          uiLibrary: 'bootstrap4'
+          });
       .form-group.mt-4.row
         .col-sm
           label Blood Group
-          select.form-control(name='MemBloodGroup')
+          select.form-control(name='member_blood')
             option(value='A+') A+
             option(value='A-') A-
             option(value='B+') B+
@@ -36,21 +48,32 @@ block content
             option(value='O-') O-
             option(value='AB+') AB+
             option(value='AB-') AB-
+            option(value='unknown') Unknown
         .col-sm
           label Gender`
-          select.form-control(name='MemGender')
+          select.form-control(name='member_gender')
             option(value='Male') Male
             option(value='Female') Female
             option(value='Others') Others
+      .form-group.mt-4.row
+        .col-sm
+          label Department`
+          select.form-control(name='member_department')
+            option(value='CE') Computer Engineering
+            option(value='Civil') Civil Engineering
+            option(value='ME') Mechanical Engineering
+            option(value='EE') Electrical Engineering
+            option(value='Pharm') Pharmacy
+            option(value='GE') Geometric Engineering
+        .col-sm
+          label Year`
+          select.form-control(name='member_year')
+            option(value='1') First
+            option(value='2') Second
+            option(value='3') Third 
+            option(value='4') Fourth            
       .form-group
         label(for='text') Current Address:
-        input#pwd.form-control(type='text-center', placeholder='Current Address', name='MemAddress')
-      .form-group
-        label(for='text') Date of Birth 
-        input#datepicker.form-control.col-8(placeholder="Enter Date of Birth", name='MemDateOfBirth')
-        script.
-          $('#datepicker').datepicker({
-          uiLibrary: 'bootstrap4'
-          });
+        input#pwd.form-control(type='text-center', placeholder='Current Address', name='member_address')
       .form-group.text-center
         button.btn.btn-deep-orange(type='submit', value="submit") Become a Member

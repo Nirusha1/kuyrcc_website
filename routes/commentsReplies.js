@@ -3,8 +3,10 @@ const router =  express.Router();
 
 //Bring in models
 let eventVariable = require('../models/events');
-let commentVariable = require('../models/commentEvent')
-let replyVariable = require('../models/replyToComment')
+let commentVariable = require('../models/commentEvent');
+let replyVariable = require('../models/replyToComment');
+
+let dateTime = require('date-and-time');
 
 //comments and replies
 //Adding Comment for Event
@@ -25,9 +27,9 @@ router.get('/:id',ensureAuthenticated,  function(req, res){
 //adding comment to the event
 router.post('/:eventId/addComment/', function(req, res){
 
-	let currentTime = new Date();
-	let date = currentTime.getFullYear()+'-'+(currentTime.getMonth()+1)+'-'+currentTime.getDate();
-	let time = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+	let now = new Date();
+	let date = dateTime.format(now, 'ddd MMM DD YYYY');
+	let time = dateTime.format(now, 'hh:mm A ');
 	let x= new commentVariable();
 	x.comment_event_id=req.params.eventId;
 	x.comment_user_id = req.user.id;
@@ -52,9 +54,9 @@ router.post('/:eventId/addComment/', function(req, res){
 
 //update comment in event
 router.post('/:id/updateComment/', function(req, res){
-	let currentTime = new Date();
-	let date = currentTime.getFullYear()+'-'+(currentTime.getMonth()+1)+'-'+currentTime.getDate();
-	let time = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+	let now = new Date();
+	let date = dateTime.format(now, 'ddd MMM DD YYYY');
+	let time = dateTime.format(now, 'hh:mm A ');
 	let x= {};
 	x.comment_body = req.body.update_commentBody;
 	x.comment_dateEdit = date;
@@ -107,9 +109,9 @@ router.get('/:eventID/:commentID/deleteComment', function(req, res){
 
 //adding replies to comment of the event
 router.post('/:eventId/addReply/', function(req, res){
-	let currentTime = new Date();
-	let date = currentTime.getFullYear()+'-'+(currentTime.getMonth()+1)+'-'+currentTime.getDate();
-	let time = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+	let now = new Date();
+	let date = dateTime.format(now, 'ddd MMM DD YYYY');
+	let time = dateTime.format(now, 'hh:mm A ');
 	let x= new replyVariable();
 	x.reply_event_id=req.params.eventId;
 	x.reply_comment_id=req.body.reply_comment_id
@@ -134,9 +136,9 @@ router.post('/:eventId/addReply/', function(req, res){
 
 //update reply in comment
 router.post('/:id/updateReply/', function(req, res){
-	let currentTime = new Date();
-	let date = currentTime.getFullYear()+'-'+(currentTime.getMonth()+1)+'-'+currentTime.getDate();
-	let time = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+	let now = new Date();
+	let date = dateTime.format(now, 'ddd MMM DD YYYY');
+	let time = dateTime.format(now, 'hh:mm A ');
 	let x= {};
 		x.reply_body = req.body.update_replyBody;
 		x.reply_dateEdit = date;

@@ -15,6 +15,7 @@ const nodemailer = require('nodemailer');
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
+//useNewUrlParser is to remove deprication warning ( can be ignored tho)
 mongoose.connect("mongodb://localhost:27017/KUYRCCdb", { useNewUrlParser: true });
 let db = mongoose.connection;
 //this line was added
@@ -359,10 +360,12 @@ let events = require('./routes/events');
 let contacts = require('./routes/contacts');
 let commentsReplies = require('./routes/commentsReplies');
 let volunteers=require('./routes/volunteers');
+let members=require('./routes/memberShip');
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
 backend.use('/users/eventList/comment/',commentsReplies);
 backend.use('/users/volunteers',volunteers);
+backend.use('/members/',members);
 
 backend.locals.moment=require('moment');
 

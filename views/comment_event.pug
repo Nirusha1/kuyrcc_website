@@ -3,7 +3,7 @@ extends layout
 block content
   .container.text-center.col-8
     //displaying selected event information
-    h2= events.event_name
+    h2 #{events.event_name}
     p Location: #{events.event_location}
     p Date: #{events.event_date}
     br
