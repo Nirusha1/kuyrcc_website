@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  
+  .container.text-center.mt-4.col-8
+    h1 Edit MemberShip Form
+  .container.text-left.mt-4.col-7    
+    form.was-validated(method="POST",action='/members/editMemberForm/'+members._id)
+      .form-group.mt-4
+          label Money Paid
+          input#text.form-control(name='member_moneyPaid',value=members.member_moneyPaid)
+      .form-group.mt-4.row
+        .col-sm
+          label(for='text') First Name
+          input#text.form-control(type='text', value=members.member_Fname, name='member_Fname')
+        .col-sm
+          label(for='text') Middle Name
+          input#text.form-control(type='text', value=members.member_Mname, name='member_Mname')
+        .col-sm
+          label(for='text') Last Name
+          input#text.form-control(type='text', value=members.member_Lname, name='member_Lname')
+      .form-group
+        label(for='email') Email:
+        input#email.form-control(type='email', value=members.member_email, name='member_email')
+      .form-group
+        label(for='text') Contact Number:
+        input#pwd.form-control(type='number', value=members.member_phone, name='member_phone')
+      .form-group
+        label(for='text') Date of Birth 
+        input#datepicker.form-control.col-8(value=members.member_DOB, name='member_DOB')
+        script.
+          $('#datepicker').datepicker({
+          uiLibrary: 'bootstrap4'
+          });
+      .form-group.mt-4.row
+        .col-sm
+          label Blood Group
+          input#text.form-control(name='member_blood',value=members.member_blood)
+        .col-sm
+          label Gender`
+          input#text.form-control(name='member_gender',value=members.member_gender)
+      .form-group.mt-4.row
+        .col-sm
+          label Department`
+          input#text.form-control(name='member_department',value=members.member_department)
+        .col-sm
+          label Year`
+          input#text.form-control(name='member_year',value=members.member_year)
+      .form-group
+        label(for='text') Current Address:
+        input#pwd.form-control(type='text-center', value=members.member_address, name='member_address')
+      .form-group.text-center
+        button.btn.btn-deep-orange(type='submit', value="submit") UPDATE
+  

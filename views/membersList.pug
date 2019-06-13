@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  if members
+    each member, j in members
+      a(href="/members/memberInfo/" + member._id)
+        .card
+          .card-body
+            h5.card-title #{member.member_Fname} #{member.member_Mname} #{member.member_Lname}
+            .card-text.row
+              .col-sm
+                p #{member.member_email}
+              .col-sm
+                p #{member.member_phone}
+              .col-sm
+                p #{member.member_DOB}
+              .col-sm
+                p #{member.member_blood}
+              .col-sm
+                p #{member.member_gender}
+              .col-sm
+                p #{member.member_department}
+              .col-sm
+                p #{member.member_year}
+              .col-sm
+                p #{member.member_address}
+              .col-sm
+                p #{member.member_moneyPaid}
+
+
+                
