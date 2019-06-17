@@ -34,17 +34,17 @@ $(document).ready(function(){
 
 //is not actually used but for better delete purpose
 // might be used later
-  $('.delete-comment').on('click', function(e){
+  $('.delete-member').on('click', function(e){
     $target = $(e.target);
     const id = $target.attr('data-id');
     //var event_id = $('#eventId_forDeletingComment').val();
     //var comment_id = $('#commentId_forDelete').val();
     $.ajax({
       type: 'DELETE',
-      url: '/users/eventList/comment/'+id,
+      url: '/members/memberInfo/'+id,
       success: function(response){
-        alert('Deleting comment');
-        window.location.href='/users/eventList/comment/'+id;
+        alert('Deleting member');
+        window.location.href='/members/memberlist/';
       },
       error: function(err){
         console.log(err);

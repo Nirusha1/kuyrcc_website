@@ -81,5 +81,15 @@ router.post('/editMemberForm/:id', function(req, res){
 
 });
 
+//deleting members
+router.delete('/memberInfo/:id',ensureAuthenticated,  function(req, res){
+	let query = {_id:req.params.id}
+	memberVariable.remove(query, function(err){
+		if(err){
+			console.log(err);
+		}
+		res.send('success');
+	});
+});
 
 module.exports = router;
