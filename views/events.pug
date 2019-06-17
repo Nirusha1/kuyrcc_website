@@ -27,7 +27,6 @@ block content
 
 			#form-group
 				label Do you require the "VOLUNTEER CALLS" for your event?
-				
 				button.btn.btn-info(type='button', data-toggle='collapse', data-target='#demo') Yes
 				button.btn.ml-5.btn-info(type='button') No
 				#demo.collapse
@@ -35,7 +34,16 @@ block content
 						label Maximum no. of volunteers requred:
 						textarea.form-control(name='eventVolunteerNo',row='5',type='text')
 
-
+			#form-group
+				label Delete this event after certain days of event?
+				button.btn.btn-info(type='button', data-toggle='collapse', data-target='#dateToDelete') Yes
+				button.btn.ml-5.btn-info(type='button') No
+				#dateToDelete.collapse
+					#form-group
+						label : Delete after 
+						textarea.form-control(name='event_dateToDelete',row='5',type='text')
+							
+			br
 			input.btn.btn-primary(type='submit', value="CREATE")
 			
 				

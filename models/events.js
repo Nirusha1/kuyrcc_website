@@ -33,8 +33,18 @@ let eventSchema = mongoose.Schema({
 	eventVolunteerNo:{
 		type:String,
 		require:false
+	},
+	event_createdDate:{
+		type:String,
+		required:false
+	},
+	event_deleteDate:{
+		type:String,
+		required:false
+	},
+	event_image_path:{
+		type:String
 	}
-
 
 });
 

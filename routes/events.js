@@ -2,6 +2,7 @@ const express = require('express');
 const router =  express.Router();
 const multer= require('multer');
 const path= require('path');
+const moment = require('moment');
 
 var mongoose  = require('mongoose');
 
@@ -28,12 +29,21 @@ const upload = multer({
 
 
 //users Events
-//add routes for creating events
+//add routes for creating events and deleting not required events
 router.get('/CreateEvent',ensureAuthenticated, function(req, res){
+	currentDate = moment().format('MM/DD/YYYY');
+	eventVariable.deleteMany({event_deleteDate:{$gte:currentDate}},function(err,deletedEvent){
+				if(err){
+					console.log(err);
+					}
+					console.log("deletedEvent");
+					console.log(deletedEvent);
+				});
 	res.render('events',{
-		title:'Events'
+	title:'Events'
 	});
 });
+
 
 //Get Single Event
 router.get('/:id', function(req, res){
@@ -68,6 +78,7 @@ router.post('/CreateEvent', function(req, res){
 		}
 		else{
 			let fullPath = "uploads/" + req.file.filename;
+      dateToDelete = parseInt(req.body.event_dateToDelete);
 			var document = {
 				event_UserName:req.user.name,
 				event_Userid:req.user.id,
@@ -75,7 +86,11 @@ router.post('/CreateEvent', function(req, res){
 				event_body:req.body.event_body,
 				event_location:req.body.event_location,
 				event_date:req.body.event_date,
-				event_image_path: fullPath
+				event_image_path: fullPath,
+        //to delete event after certain day
+      	event_createdDate: moment().format('MM/DD/YYYY'),
+      	event_deleteDate: moment(this.event_date).add(dateToDelete,"days").format('MM/DD/YYYY')
+
 			};
 			let x = new eventVariable(document);
 			x.save(function(error){

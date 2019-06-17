@@ -122,7 +122,10 @@ backend.get('/logout',function(req,res){
 //setting global user variable for all url
 backend.get('*', function(req,res,next){
 	res.locals.usersGlobal=req.user || null;
+	eventVariable.find({},function(err,events){
+	res.locals.globalEvents = events;
 	next();
+	});
 	if(!req.user){
 		console.log('Express session is not started');
 	}

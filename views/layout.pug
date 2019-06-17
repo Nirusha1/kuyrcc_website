@@ -52,10 +52,15 @@ html
 								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button',data-toggle='dropdown') Notificaions
 									span.badge.badge-danger.ml-1 4	
 										.dropdown-menu
-											li Notification 1
-											li Notification 2
-											li Notification 3				
-								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log Out
+											if globalEvents
+												each event, j in globalEvents
+													if event.event_createdDate==moment().format('MM/DD/YYYY')
+														li  
+															p Event for #{event.event_name} has been created 
+															p by #{event.event_UserName}
+															p Please check it out...
+																		
+								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log out
 							li.nav-item.active
 								a(href='/users/eventList/CreateEvent')
 									button.btn.ml-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') Create Events
