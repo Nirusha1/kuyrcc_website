@@ -42,7 +42,7 @@ router.get('/memberList/',function(req,res){
 });
 
 //showing and editing single member information
-router.get('/memberInfo/:id',function(req,res){
+router.get('/memberInfo/:id',ensureAdminAuthenticated("/members/memberList/"),function(req,res){
 	memberVariable.findById({_id:req.params.id}, function(err, members){
 		res.render('memberInfo',{
 			members:members

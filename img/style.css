@@ -2,7 +2,7 @@
 
 .carousel-inner img{
   width:100%;
-  height: 100%;
+  height:350px;
 }
 /* for fish eye zoom effect*/
 .zoom {

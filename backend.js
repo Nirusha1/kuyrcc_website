@@ -48,6 +48,7 @@ let contactVariable = require('./models/contacts');
 let questionVariable = require('./models/questions');
 let commentVariable = require('./models/commentEvent');
 let volunteerVariable=require('./models/volunteers');
+let membersVariable = require('./models/memberSchema');
 //passport config
 require('./config/passport')(passport);
 
@@ -224,6 +225,7 @@ backend.post('/users/contacts',function(req,res){
 		}
 	});
 });
+
 //for checking if users are registered in database or not route
 backend.get('/checklist', function(req, res){
 		dbvariable.find({}, function(err, users){
@@ -343,7 +345,7 @@ backend.post('/registerPage/', function(req, res){
 	}
 });
 
-//Access Control
+//login Access Control
 global.ensureAuthenticated= function(req, res, next){
 	if (req.isAuthenticated()){
     if (req.user.user_auth){
@@ -358,12 +360,36 @@ global.ensureAuthenticated= function(req, res, next){
 		res.redirect('/frontend');
 	}
 }
+//admin Access Control
+global.ensureAdminAuthenticated= function(redirectTo){
+		return function(req, res, next){
+		if (req.isAuthenticated()){
+		membersVariable.find({member_email:req.user.email},function(err,member){ //search for member
+			if(member.length==0){ //if user is not member
+				req.flash('danger','Your Account is not Verified Member. This is for Admin Access');
+				res.redirect(redirectTo);
+			}else{
+				if (member[0].member_position == 'Admin') //if the user is admin
+					return next();
+				else{ //if user is a member but not admin
+					req.flash('danger','Only Admin could access this');
+					res.redirect(redirectTo);}}
+			});
+		}else{ //if user hasnt login
+				req.flash('danger', 'Please Login');
+				res.redirect(redirectTo);}
+	}
+}
+
+
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');
 let commentsReplies = require('./routes/commentsReplies');
 let volunteers=require('./routes/volunteers');
 let members=require('./routes/memberShip');
+//let homeRoutes=require('./routes/homeRoutes');
+//backend.use('/home/',homeRoutes);
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
 backend.use('/users/eventList/comment/',commentsReplies);
