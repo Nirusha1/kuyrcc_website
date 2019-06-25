@@ -43,7 +43,8 @@ let eventSchema = mongoose.Schema({
 		required:false
 	},
 	event_image_path:{
-		type:String
+		type:String,
+		required:false
 	}
 
 });

@@ -52,5 +52,11 @@ $(document).ready(function(){
     });
   });
 
+  //making the row clickable as link
+  $(document).ready(function($) {
+      $(".table-row").click(function() {
+          window.document.location = $(this).data("href");
+      });
+  });
 
 });

@@ -1,31 +1,36 @@
 extends layout
 
 block content
-  if members
-    each member, j in members
-      a(href="/members/memberInfo/" + member._id)
-        .card
-          .card-body
-            h5.card-title #{member.member_Fname} #{member.member_Mname} #{member.member_Lname}
-            .card-text.row
-              .col-sm
-                p #{member.member_email}
-              .col-sm
-                p #{member.member_phone}
-              .col-sm
-                p #{member.member_DOB}
-              .col-sm
-                p #{member.member_blood}
-              .col-sm
-                p #{member.member_gender}
-              .col-sm
-                p #{member.member_department}
-              .col-sm
-                p #{member.member_year}
-              .col-sm
-                p #{member.member_address}
-              .col-sm
-                p #{member.member_moneyPaid}
+  table.table.table-hover
+    thead.thead-dark
+      tr
+        th(scope='col') #
+        th(scope='col') Name
+        th(scope='col') Email
+        th(scope='col') Phone
+        th(scope='col') Blood
+        th(scope='col') Gender
+        th(scope='col') Address
+        th(scope='col') Department
+        th(scope='col') Year
+        th(scope='col') Position
+    tbody
+      
+      if members
+        each member, j in members
+          a(href="/members/memberInfo/" + member._id)
+            tr(class="table-row" data-href="/members/memberInfo/" + member._id style='cursor:pointer;')
+              th(scope='row') #{j+1}
+              th #{member.member_Fname} #{member.member_Mname} #{member.member_Lname}
+              td #{member.member_email} 
+              td #{member.member_phone} 
+              td #{member.member_blood} 
+              td #{member.member_gender} 
+              td #{member.member_address} 
+              td #{member.member_department} 
+              td #{member.member_year} 
+              td #{member.member_position} 
 
+      
 
                 

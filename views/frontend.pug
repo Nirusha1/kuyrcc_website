@@ -32,7 +32,7 @@ block content
 	if events
 		.row
 			each event, j in events	
-				if event.event_date > moment().format('MM/DD/YYYY')
+				if event.event_date >= moment().format('MM/DD/YYYY')
 					.col-sm-6
 						a(href="/eventdetails")
 							.card-deck.mb-5

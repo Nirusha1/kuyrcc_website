@@ -18,8 +18,7 @@ router.post('/form/',function(req,res){
 	x.member_department = req.body.member_department;
 	x.member_year = req.body.member_year;
 	x.member_address = req.body.member_address;
-	x.member_moneyPaid = "false";
-
+	x.member_position = "Non-Member"
 	x.save(function(err){
 		if(err){
 			console.log(err);
@@ -66,7 +65,7 @@ router.post('/editMemberForm/:id', function(req, res){
 	x.member_department = req.body.member_department;
 	x.member_year = req.body.member_year;
 	x.member_address = req.body.member_address;
-	x.member_moneyPaid = req.body.member_moneyPaid;
+	x.member_position = req.body.member_position;
 
 	let query = {_id:req.params.id}
 	memberVariable.update(query, x, function(err){

@@ -86,10 +86,11 @@ router.post('/CreateEvent', function(req, res){
 				event_body:req.body.event_body,
 				event_location:req.body.event_location,
 				event_date:req.body.event_date,
+        eventVolunteerNo:req.body.eventVolunteerNo,
 				event_image_path: fullPath,
         //to delete event after certain day
       	event_createdDate: moment().format('MM/DD/YYYY'),
-      	event_deleteDate: moment(this.event_date).add(dateToDelete,"days").format('MM/DD/YYYY')
+      	//event_deleteDate: moment(this.event_date).add(dateToDelete,"days").format('MM/DD/YYYY')
 
 			};
 			let x = new eventVariable(document);
