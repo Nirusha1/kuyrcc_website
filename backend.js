@@ -10,6 +10,8 @@ const config=require('./config/database');
 const bcrypt=require('bcryptjs');
 //for email verification
 const nodemailer = require('nodemailer');
+const moment = require('moment');
+
 
 //mongoose.connect('mongodb://localhost:27017/KUYRCCdb');
 mongoose.set('useNewUrlParser', true);
@@ -158,9 +160,16 @@ backend.get('/frontend', function(req, res){
 
 //add route
 backend.get('/registerPage/', function(req, res){
-	res.render('register',{
-		title:'Register'
-	});
+		currentDate = moment().format('MM/DD/YYYY');
+		//deleting the user from db if the user dont verify the account within a day
+		dbvariable.deleteMany({deleteDate:{$lte:currentDate}},function(err,deletedUser){
+					if(err){
+						console.log(err);
+						}
+						res.render('register',{
+							title:'Register'
+						});
+					});
 });
 //adding membership form to routes
 backend.get('/form/membership',function(req,res){
@@ -271,6 +280,7 @@ function randomNumber(low, high) {
 }
 //add registration route
 backend.post('/registerPage/', function(req, res){
+	let currentDate = moment().format('MM/DD/YYYY')
 	const name=req.body.RegName;
 	const email=req.body.RegEmail;
 	const pwd=req.body.RegPassword;
@@ -297,7 +307,8 @@ backend.post('/registerPage/', function(req, res){
 				pwd:pwd,
 				conpwd:conpwd,
 				user_auth:false,
-				random_number:random_number
+				random_number:random_number,
+				deleteDate: moment(currentDate).add(1,"days").format('MM/DD/YYYY')
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -308,7 +319,7 @@ backend.post('/registerPage/', function(req, res){
 					x.pwd=hash;
 					x.save(function(err){
 						if(err){
-							req.flash('success','UserName and Email must be Unique');
+							req.flash('danger','This Email is already used. Choose Another Valid email');
 							res.redirect('/registerPage/');
 						}
 						else{
