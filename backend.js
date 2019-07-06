@@ -235,6 +235,20 @@ backend.post('/users/contacts',function(req,res){
 	});
 });
 
+//for list of events
+backend.get('/eventList', function(req, res){
+		eventVariable.find({}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('eventList',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
+
 //for checking if users are registered in database or not route
 backend.get('/checklist', function(req, res){
 		dbvariable.find({}, function(err, users){
