@@ -5,8 +5,7 @@ var uniqueValidator = require('mongoose-unique-validator');
 let userSchema=mongoose.Schema({
 	name:{
 		type:String,
-		required: true,
-		unique:true
+		required: true
 	},
 	email:{
 		type:String,
@@ -28,6 +27,14 @@ let userSchema=mongoose.Schema({
 	conpwd:{
 		type:String,
 		required: true
+	},
+	deleteDate:{
+		type:String,
+		required: false
+	},
+	position:{
+		type:String,
+		required: false
 	}
 });
 

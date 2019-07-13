@@ -3,6 +3,7 @@ const router =  express.Router();
 
 //Bring in models
 let memberVariable = require('../models/memberSchema');
+let dbvariable = require('../models/users');
 
 //storing data to memberSchema
 router.post('/form/',function(req,res){
@@ -42,7 +43,7 @@ router.get('/memberList/',function(req,res){
 });
 
 //showing and editing single member information
-router.get('/memberInfo/:id',function(req,res){
+router.get('/memberInfo/:id',ensureAdminAuthenticated("/members/memberList/"),function(req,res){
 	memberVariable.findById({_id:req.params.id}, function(err, members){
 		res.render('memberInfo',{
 			members:members
@@ -74,6 +75,14 @@ router.post('/editMemberForm/:id', function(req, res){
 			return;
 		}
 		else{
+			let y = {};
+			y.position = req.body.member_position;
+			dbvariable.update({_id:req.user._id},y,function(err){
+				if(err){
+					console.log(err);
+					return;
+				}
+			});
 			res.redirect('/members/memberlist/');
 		}
 	});

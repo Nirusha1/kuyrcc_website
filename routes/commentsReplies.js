@@ -10,7 +10,7 @@ let dateTime = require('date-and-time');
 
 //comments and replies
 //Adding Comment for Event
-router.get('/:id',ensureAuthenticated,  function(req, res){
+router.get('/:id',  function(req, res){
 	commentVariable.find({comment_event_id:req.params.id}, function(err, comments){
 	replyVariable.find({reply_event_id:req.params.id},function(err,replies){
 	eventVariable.findById(req.params.id, function(err, events){

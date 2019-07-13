@@ -44,6 +44,19 @@ router.get('/CreateEvent',ensureAuthenticated, function(req, res){
 	});
 });
 
+//for list of events for members
+router.get('/memberEvents', function(req, res){
+		eventVariable.find({event_type:"Meetings"}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('eventsForMembers',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
 
 //Get Single Event
 router.get('/:id', function(req, res){
@@ -53,22 +66,6 @@ router.get('/:id', function(req, res){
 		});
 	});
 });
-/* Nirusha commented it
-//for checking if events are created in database or not route
-router.get('/events/single_event', function(req, res){
-	eventVariable.find({}, function(err, events){
-		if(err){
-			console.log(err);
-		}
-		else{
-			res.render('eventList',{
-				title:'All Events',
-				events: events
-			});
-		}
-	});
-});
-*/
 
 //add event creation and submission route
 router.post('/CreateEvent', function(req, res){
@@ -77,7 +74,14 @@ router.post('/CreateEvent', function(req, res){
 			console.log('error in event create route');
 		}
 		else{
-			let fullPath = "uploads/" + req.file.filename;
+      let fullPath = " "
+      imageExists = req.body.event_imageSelected
+      console.log(imageExists);
+      if( imageExists == "imageExists" )
+        fullPath = "uploads/" + req.file.filename;
+      else
+        fullPath = " "
+        // try to make a image if image doest exists
       dateToDelete = parseInt(req.body.event_dateToDelete);
 			var document = {
 				event_UserName:req.user.name,
@@ -87,6 +91,7 @@ router.post('/CreateEvent', function(req, res){
 				event_location:req.body.event_location,
 				event_date:req.body.event_date,
         eventVolunteerNo:req.body.eventVolunteerNo,
+        event_type:req.body.event_type,
 				event_image_path: fullPath,
         //to delete event after certain day
       	event_createdDate: moment().format('MM/DD/YYYY'),

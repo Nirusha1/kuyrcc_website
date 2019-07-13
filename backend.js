@@ -10,6 +10,8 @@ const config=require('./config/database');
 const bcrypt=require('bcryptjs');
 //for email verification
 const nodemailer = require('nodemailer');
+const moment = require('moment');
+
 
 //mongoose.connect('mongodb://localhost:27017/KUYRCCdb');
 mongoose.set('useNewUrlParser', true);
@@ -48,6 +50,7 @@ let contactVariable = require('./models/contacts');
 let questionVariable = require('./models/questions');
 let commentVariable = require('./models/commentEvent');
 let volunteerVariable=require('./models/volunteers');
+let membersVariable = require('./models/memberSchema');
 //passport config
 require('./config/passport')(passport);
 
@@ -90,6 +93,11 @@ backend.get('/login', function(req, res){
 			console.log("loginROute");
 });
 
+//Timeline
+backend.get('/timeline', function(req, res){
+			res.render('timeline');
+			console.log("timeline");
+});
 
 //getting single user information
 backend.get("/users/detail/:id",function(req,res){
@@ -124,14 +132,18 @@ backend.get('*', function(req,res,next){
 	res.locals.usersGlobal=req.user || null;
 	eventVariable.find({},function(err,events){
 	res.locals.globalEvents = events;
-	next();
 	});
 	if(!req.user){
 		console.log('Express session is not started');
+		res.locals.globalMember = false
 	}
 	else{
 		console.log('Express session is started');
+		membersVariable.find({member_email:req.user.email},function(err,member){
+			res.locals.globalMember = member;
+		});
 	}
+	next();
 });
 
 //home route
@@ -157,13 +169,31 @@ backend.get('/frontend', function(req, res){
 
 //add route
 backend.get('/registerPage/', function(req, res){
-	res.render('register',{
-		title:'Register'
-	});
+		currentDate = moment().format('MM/DD/YYYY');
+		//deleting the user from db if the user dont verify the account within a day
+		dbvariable.deleteMany({deleteDate:{$lte:currentDate}},function(err,deletedUser){
+					if(err){
+						console.log(err);
+						}
+						res.render('register',{
+							title:'Register'
+						});
+					});
 });
 //adding membership form to routes
 backend.get('/form/membership',function(req,res){
-	res.render('membershipForm');
+	if (req.user){
+		membersVariable.find({member_email:req.user.email},function(err,member){
+		res.render('membershipForm',{
+			member:member
+		});
+		});
+	}else{
+				res.render('membershipForm',{
+					member: 0
+				});
+	}
+
 });
 
 backend.get('/eventdetails', function(req,res){
@@ -181,7 +211,14 @@ backend.get('/eventdetails', function(req,res){
 });
 
 //adding contact to routes
-backend.get('/users/contacts', function(req, res){
+backend.get('/users/contacts', function(req, res,next){
+	usersEmail=req.user || null;
+	console.log(res.locals.usersEmail);
+	if (usersEmail != null){
+		email = req.user.email
+	}else{
+		email = ""
+	}
 	contactVariable.find({}, function(err, contacts){
 		if(err){
 			console.log(err);
@@ -189,41 +226,57 @@ backend.get('/users/contacts', function(req, res){
 		else{
 			res.render('contacts',{
 				title:'All Contacts',
-				contacts: contacts
+				contacts: contacts,
+				email:email
 			});
 		}
 	});
+	next()
 });
-backend.post('/users/contacts',function(req,res){
-	contactVariable.find({}, function(err, contacts){
-	const questionBody = req.body.QuestionBody;
-	req.checkBody('QuestionBody','Make sure field is not empty before submission').notEmpty();
-	let errors =  req.validationErrors();
-	if(errors){
-		req.flash('success','Make sure field is not empty before submission');
-		res.render('contacts',{
-			errors:errors,
-			contacts: contacts
-		});}
-		else{
-			let x = new questionVariable();
-				x.question_body= req.body.QuestionBody;
-				x.question_UserName= req.user.name;
-				x.question_email= req.user.email;
-			x.save(function(err){
-				if(err){
-					console.log(err);
-					return;
-				}else{
-					req.flash('success','Your question has been posted');
-					res.render('contacts',{
-						contacts: contacts
-					});
-				}
-			});
-		}
+
+//for list of events
+backend.get('/eventList', function(req, res){
+	//eventVariable.find({} , function(err, events){
+		eventVariable.find( {$or: [{event_type:"Main Event"}, {event_type:"Small Event"}]} , function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('eventList',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
 	});
-});
+
+//for list of events for members
+backend.get('/firstAidTips/', function(req, res){
+		eventVariable.find({event_type:"First Aid"}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('FirstAids',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
+
+//for list of events for members
+backend.get('/memberEvents/', function(req, res){
+		eventVariable.find({event_type:"Meetings"}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('eventsForMembers',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
+
 //for checking if users are registered in database or not route
 backend.get('/checklist', function(req, res){
 		dbvariable.find({}, function(err, users){
@@ -269,6 +322,7 @@ function randomNumber(low, high) {
 }
 //add registration route
 backend.post('/registerPage/', function(req, res){
+	let currentDate = moment().format('MM/DD/YYYY')
 	const name=req.body.RegName;
 	const email=req.body.RegEmail;
 	const pwd=req.body.RegPassword;
@@ -295,7 +349,8 @@ backend.post('/registerPage/', function(req, res){
 				pwd:pwd,
 				conpwd:conpwd,
 				user_auth:false,
-				random_number:random_number
+				random_number:random_number,
+				deleteDate: moment(currentDate).add(1,"days").format('MM/DD/YYYY')
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -306,7 +361,7 @@ backend.post('/registerPage/', function(req, res){
 					x.pwd=hash;
 					x.save(function(err){
 						if(err){
-							req.flash('success','UserName and Email must be Unique');
+							req.flash('danger','This Email is already used. Choose Another Valid email');
 							res.redirect('/registerPage/');
 						}
 						else{
@@ -343,7 +398,7 @@ backend.post('/registerPage/', function(req, res){
 	}
 });
 
-//Access Control
+//login Access Control
 global.ensureAuthenticated= function(req, res, next){
 	if (req.isAuthenticated()){
     if (req.user.user_auth){
@@ -358,12 +413,38 @@ global.ensureAuthenticated= function(req, res, next){
 		res.redirect('/frontend');
 	}
 }
+
+
+//admin Access Control
+global.ensureAdminAuthenticated= function(redirectTo){
+		return function(req, res, next){
+		if (req.isAuthenticated()){
+		membersVariable.find({member_email:req.user.email},function(err,member){ //search for member
+			if(member.length==0){ //if user is not member
+				req.flash('danger','Your Account is not Verified Member. This is for Admin Access');
+				res.redirect(redirectTo);
+			}else{
+				if (member[0].member_position == 'Admin') //if the user is admin
+					return next();
+				else{ //if user is a member but not admin
+					req.flash('danger','Only Admin could access this');
+					res.redirect(redirectTo);}}
+			});
+		}else{ //if user hasnt login
+				req.flash('danger', 'Please Login');
+				res.redirect(redirectTo);}
+	}
+}
+
+
 //Route Files
 let events = require('./routes/events');
 let contacts = require('./routes/contacts');
 let commentsReplies = require('./routes/commentsReplies');
 let volunteers=require('./routes/volunteers');
 let members=require('./routes/memberShip');
+//let homeRoutes=require('./routes/homeRoutes');
+//backend.use('/home/',homeRoutes);
 backend.use('/users/eventList',events);
 backend.use('/users/contacts', contacts);
 backend.use('/users/eventList/comment/',commentsReplies);

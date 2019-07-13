@@ -1,78 +1,87 @@
 extends layout
 
 block content
-  .container.text-center.col-8
-    //displaying selected event information
-    h2 #{events.event_name}
-    p Location: #{events.event_location}
-    p Date: #{events.event_date}
-    br
-    p.text-left.font-weight-bold Event Description: 
-    p #{events.event_body}
-    br      
-    //displaying section for adding new comment
-    .container.text-center
-      h5 Leave Your Comment Here
-      form(method='POST', action='/users/eventList/comment/' + events._id+'/addComment')
-        #form-group
-          textarea.form-control(name='commentBody',rows='2',type='text',placeholder="Enter your comments")
-        .container.row.justify-content-center.my-3
-          input.btn.btn-primary.mx-1(type='submit', value="Comment") 
-    br
-    //displaying all the comments for the selected event
-    if comments
-      each comment, j in comments
-        .card-deck.mb-3
-            .card.body.text-center.pl-2.bg-light
-                h8.card-title.text-primary.text-left.font-weight-bold  #{comment.comment_userName}
-                p.card-text.text-dark.text-left Commented on: #{comment.comment_date} at: #{comment.comment_time}
-                //showing edited date only if it has been updated
-                if comment.comment_dateEdit
-                  p.card-text.text-dark.text-left Edited on: #{comment.comment_dateEdit} at: #{comment.comment_timeEdit}
-                p.card-text.text-dark.text-left #{comment.comment_body}
-                  //if the same user who have commented logins he can edit or delete 
-                  if usersGlobal.id == comment.comment_user_id
-                    button.btn.btn-warning.float-md-right.m-2(type='button', data-toggle='collapse',data-target='#'+comment._id) Edit / Delete
-                    //collapsing comment section shows when edit button is clicked
-                    .collapse(id=comment._id)
-                      form(method='POST', action='/users/eventList/comment/' + events._id + '/updateComment/')
-                        #form-group
-                          input(type='hidden',name='commentId_forUpdate',value=comment._id)
-                          textarea.form-control(name='update_commentBody',rows='2',type='text')= comment.comment_body
-                        .container.row.justify-content-center.my-3
-                          input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
-                          //a.btn.btn-danger.delete-comment.mx-1(href="#", data-id = events._id) DELETE
-                          a.btn.btn-danger(href='/users/eventList/comment/'+events._id +'/'+ comment._id+'/deleteComment/') DELETE
-                  //for adding replying to the comment
-                  form.form-inline(method='POST', action='/users/eventList/comment/' + events._id+'/addReply/')
-                    input(type="hidden", name="reply_comment_id", value= comment._id)
-                    textarea.form-control.mx-3(name='replybody',rows='1',cols='50',type='text',placeholder="Your reply")
-                    input.btn.btn-primary.mx-1(type='submit', value="Reply")
-                  
-                  //showing reply for corresponding comments
-                  each reply, i in replies
-                    if comment._id == reply.reply_comment_id
-                      .card.body.text-center.pl-2.mt-2.mx-4.bg-light
-                        h8.card-title.text-left.text-primary.font-weight-bold #{reply.reply_userName}
-                        p.card-text.text-dark.text-left Replied on: #{reply.reply_date} at: #{reply.reply_time}
-                        //showing edited date only if it has been updated
-                        if reply.reply_dateEdit
-                          p.card-text.text-dark.text-left Edited on: #{reply.reply_dateEdit} at: #{reply.reply_timeEdit}
-                        p.card-text.text-dark.text-left #{reply.reply_body}
-                        //editing or deletion of the reply of individual replies
-                        if usersGlobal.id == reply.reply_user_id
-                          button.btn.btn-warning.float-md-right.m-2(type='button', data-toggle='collapse',data-target='#'+reply._id) Edit / Delete
-                          //collapsing reply section shows when edit button is clicked
-                          .collapse(id=reply._id)
-                            form(method='POST', action='/users/eventList/comment/' + events._id+'/updateReply/')
+  .container.row
+    .container.align-items-center.justify-content-center.col-9
+      //displaying selected event information
+      h2 #{events.event_name}
+      img.img-fluid(src='/'+events.event_image_path+'', alt=events.event_name )
+      pre Location: #{events.event_location}   Date: #{events.event_date}
+      br
+      p.text-left.font-weight-bold Event Description: 
+      p #{events.event_body}
+      br      
+      //displaying section for adding new comment
+      .container.text-center
+        h5 Leave Your Comment Here
+        form(method='POST', action='/users/eventList/comment/' + events._id+'/addComment')
+          #form-group
+          if !usersGlobal
+            textarea.form-control(name='commentBody',rows='2',type='text',placeholder="Login To comment or reply")
+            .container.row.justify-content-center.my-3
+              input.btn.btn-primary.mx-1(type='submit', value="Comment" disabled) 
+          else
+            textarea.form-control(name='commentBody',rows='2',type='text',placeholder="Place your comment here")
+            .container.row.justify-content-center.my-3
+              input.btn.btn-primary.mx-1(type='submit', value="Comment") 
+        br
+        //displaying all the comments for the selected event
+        if comments
+          each comment, j in comments
+            .card-deck.mb-3
+                .card.body.text-center.pl-2.bg-light
+                    h8.card-title.text-primary.text-left.font-weight-bold  #{comment.comment_userName}
+                    p.card-text.text-dark.text-left Commented on: #{comment.comment_date} at: #{comment.comment_time}
+                    //showing edited date only if it has been updated
+                    if comment.comment_dateEdit
+                      p.card-text.text-dark.text-left Edited on: #{comment.comment_dateEdit} at: #{comment.comment_timeEdit}
+                    p.card-text.text-dark.text-left #{comment.comment_body}
+                      if usersGlobal
+                        //if the same user who have commented logins he can edit or delete 
+                        if usersGlobal.id == comment.comment_user_id
+                          button.btn.btn-warning.float-md-right.m-2(type='button', data-toggle='collapse',data-target='#'+comment._id) Edit / Delete
+                          //collapsing comment section shows when edit button is clicked
+                          .collapse(id=comment._id)
+                            form(method='POST', action='/users/eventList/comment/' + events._id + '/updateComment/')
                               #form-group
-                                input(type='hidden',name='replyId_forUpdate',value=reply._id)
-                                textarea.form-control(name='update_replyBody',rows='2',type='text')= reply.reply_body
+                                input(type='hidden',name='commentId_forUpdate',value=comment._id)
+                                textarea.form-control(name='update_commentBody',rows='2',type='text')= comment.comment_body
                               .container.row.justify-content-center.my-3
                                 input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
-                                //a.btn.btn-danger.delete-reply.mx-1(href="#", data-id = reply._id) DELETE
-                                a.btn.btn-danger(href='/users/eventList/comment/'+events._id +'/'+ reply._id+'/deleteReply/') DELETE
+                                //a.btn.btn-danger.delete-comment.mx-1(href="#", data-id = events._id) DELETE
+                                a.btn.btn-danger(href='/users/eventList/comment/'+events._id +'/'+ comment._id+'/deleteComment/') DELETE
+                      if usersGlobal
+                        //for adding replying to the comment
+                        form.form-inline(method='POST', action='/users/eventList/comment/' + events._id+'/addReply/')
+                          input(type="hidden", name="reply_comment_id", value= comment._id)
+                          textarea.form-control.mx-3(name='replybody',rows='1',cols='50',type='text',placeholder="Your reply")
+                          input.btn.btn-primary.mx-1(type='submit', value="Reply")
+                      
+                      //showing reply for corresponding comments
+                      if usersGlobal
+                        each reply, i in replies
+                          if comment._id == reply.reply_comment_id
+                            .card.body.text-center.pl-2.mt-2.mx-4.bg-light
+                              h8.card-title.text-left.text-primary.font-weight-bold #{reply.reply_userName}
+                              p.card-text.text-dark.text-left Replied on: #{reply.reply_date} at: #{reply.reply_time}
+                              //showing edited date only if it has been updated
+                              if reply.reply_dateEdit
+                                p.card-text.text-dark.text-left Edited on: #{reply.reply_dateEdit} at: #{reply.reply_timeEdit}
+                              p.card-text.text-dark.text-left #{reply.reply_body}
+                              //editing or deletion of the reply of individual replies
+                              if usersGlobal.id == reply.reply_user_id
+                                button.btn.btn-warning.float-md-right.m-2(type='button', data-toggle='collapse',data-target='#'+reply._id) Edit / Delete
+                                //collapsing reply section shows when edit button is clicked
+                                .collapse(id=reply._id)
+                                  form(method='POST', action='/users/eventList/comment/' + events._id+'/updateReply/')
+                                    #form-group
+                                      input(type='hidden',name='replyId_forUpdate',value=reply._id)
+                                      textarea.form-control(name='update_replyBody',rows='2',type='text')= reply.reply_body
+                                    .container.row.justify-content-center.my-3
+                                      input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
+                                      //a.btn.btn-danger.delete-reply.mx-1(href="#", data-id = reply._id) DELETE
+                                      a.btn.btn-danger(href='/users/eventList/comment/'+events._id +'/'+ reply._id+'/deleteReply/') DELETE
 
-                    
+                      
 
         
