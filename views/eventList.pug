@@ -21,6 +21,7 @@ block content
           each event, j in events
             .col-md-4.ftco-animate
               .blog-entry
+<<<<<<< HEAD
                 a.block-20(href="/users/eventList/edit/" + event._id, style="background-image: url("+event.event_image_path+");")
                 .text.d-block
                   .meta.mb-3
@@ -33,10 +34,24 @@ block content
                         a.meta-chat(href='#')
                           span.icon-chat
                           |  3
+=======
+                a.block-20(href="/users/eventList/edit/" + event._id, style="background-image: url('images/image_2.jpg');")
+                .text.d-block
+                  .meta.mb-3
+                    div
+                      a(href='#') June 9, 2019
+                    div
+                      a(href='#') UserName
+                    div
+                      a.meta-chat(href='#')
+                        span.icon-chat
+                        |  3
+>>>>>>> 241ab1d7d3e2c7c5417beecf5e5e642880e8e90e
                   h3.heading
                     a(href='#') #{event.event_name}
                   p
                     | #{event.event_body}
+<<<<<<< HEAD
                   .row
                     .col-sm
                         a.btn.btn-primary.my-2(href="/users/eventList/comment/" + event._id) Read more...
@@ -46,6 +61,10 @@ block content
                       if usersGlobal
                         if usersGlobal.id == event.event_Userid
                           a.btn.btn-primary.my-2(href="/users/eventList/edit/" + event._id) Edit
+=======
+                  p
+                    a.btn.btn-primary.py-2.px-3(href="/users/eventList/edit/" + event._id) Read more
+>>>>>>> 241ab1d7d3e2c7c5417beecf5e5e642880e8e90e
 
 
             

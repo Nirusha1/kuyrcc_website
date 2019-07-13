@@ -31,10 +31,13 @@ let userSchema=mongoose.Schema({
 	deleteDate:{
 		type:String,
 		required: false
+<<<<<<< HEAD
 	},
 	position:{
 		type:String,
 		required: false
+=======
+>>>>>>> 241ab1d7d3e2c7c5417beecf5e5e642880e8e90e
 	}
 });
 

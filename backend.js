@@ -413,8 +413,11 @@ global.ensureAuthenticated= function(req, res, next){
 		res.redirect('/frontend');
 	}
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 241ab1d7d3e2c7c5417beecf5e5e642880e8e90e
 //admin Access Control
 global.ensureAdminAuthenticated= function(redirectTo){
 		return function(req, res, next){
