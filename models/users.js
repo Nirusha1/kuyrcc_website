@@ -31,6 +31,10 @@ let userSchema=mongoose.Schema({
 	deleteDate:{
 		type:String,
 		required: false
+	},
+	position:{
+		type:String,
+		required: false
 	}
 });
 

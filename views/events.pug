@@ -1,50 +1,154 @@
 extends layout
 
 block content
-	.container.text-center.col-4
-		form(method='POST', action='/users/eventList/CreateEvent',enctype="multipart/form-data")
-			#form-group
-				label Upload Image:
-				input#filetoUpload.form-control(name='events_image', type='file')
-			#form-group
-				label Event Title:
-				input.form-control(name='event_name',type='text')
-			#form-group
-				label Event Informations:
-				textarea.form-control(name='event_body',row='5',type='text')
-
-			#form-group
-				label Event Location:
-				textarea.form-control(name='event_location',row='5',type='text')
-
-			#form-group
-				label Event Date:	
-				input#datepicker.form-control.col-8(name='event_date')
-				script.
-					$('#datepicker').datepicker({
-					uiLibrary: 'bootstrap4'
-					});
-
-			#form-group
-				label Do you require the "VOLUNTEER CALLS" for your event?
-				button.btn.btn-info(type='button', data-toggle='collapse', data-target='#demo') Yes
-				button.btn.ml-5.btn-info(type='button') No
-				#demo.collapse
+	.container
+		.container.col-4
+			form(name="eventForm",method='POST', action='/users/eventList/CreateEvent',enctype="multipart/form-data")
+				
+				input.form-check-input(id="eventType_label",type='hidden', name='event_type', value=" ")
+				input.form-check-input(id="event_imageSelected",type='hidden', name='event_imageSelected', value=" ")
+				.container.text-center
 					#form-group
-						label Maximum no. of volunteers requred:
-						textarea.form-control(name='eventVolunteerNo',row='5',type='text')
-
-			#form-group
-				label Delete this event after certain days of event?
-				button.btn.btn-info(type='button', data-toggle='collapse', data-target='#dateToDelete') Yes
-				button.btn.ml-5.btn-info(type='button') No
-				#dateToDelete.collapse
+						label.text-left Select the type of Post:
+						.form-check
+							input.form-check-input(id='mainEvents',type='radio', name='type')
+							label.form-check-label Main Events
+						.form-check
+							input.form-check-input(id = 'smallEvents',type='radio', name='type', checked='')
+							label.form-check-label Small Events
+						.form-check
+							input.form-check-input(type='radio', name='type')
+							label.form-check-label Meetings
+						.form-check
+							input.form-check-input(type='radio', name='type')
+							label.form-check-label First Aid Tips
+						
+				.container(id="event_image_container")
 					#form-group
-						label : Delete after 
-						textarea.form-control(name='event_dateToDelete',row='5',type='text')
+						label(id="events_image") Upload Image:
+						input#filetoUpload.form-control(name='events_image', type='file')
 							
-			br
-			input.btn.btn-primary(type='submit', value="CREATE")
+				.container(id="event_title_container")
+					#form-group
+						label(id="event_title") Event Title:
+						input.form-control(id ="event_title_area",name='event_name',type='text')
+							
+				.container(id="event_body_container")
+					#form-group
+						label(id="event_body") Event Informations:
+						textarea.form-control(id="event_body_area",name='event_body',row='5',type='text')
+						
+				.container(id="event_location_container")
+					#form-group
+						label(id="event_location") Event Location:
+						textarea.form-control(id="event_location_area",name='event_location',row='5',type='text')
+						
+				.container(id="event_date_container")
+					#form-group
+						label(id="eventDate") Event Date:	
+						input#datepicker.form-control.col-8(name='event_date')
+							
+				.container(id="event_vol_container")
+					#form-group
+						label(id="event_vol") Do you require the "VOLUNTEER CALLS" for your event?
+						button.btn.btn-info(id="event_vol_area",type='button', data-toggle='collapse', data-target='#demo') Yes
+						#demo.collapse
+							#form-group
+								label Maximum no. of volunteers requred:
+								textarea.form-control(name='eventVolunteerNo',row='5',type='text')
+									
+				.container(id="event_delete_container")
+					#form-group
+						label(id="event_delete") Delete this event after certain days of event?
+						button.btn.btn-info(id="event_delete_area",type='button', data-toggle='collapse', data-target='#dateToDelete') Yes
+						#dateToDelete.collapse
+							#form-group
+								label : Delete after 
+								textarea.form-control(name='event_dateToDelete',row='5',type='text')
+								
+				br
+				.container.justify-content-center.text-center.pd-5
+					input.btn.btn-primary(id="event_submit_button",type='submit', value="CREATE")
+				
+				script.
+					//to check if the image is selected or not
+					document.getElementById("event_imageSelected").value="empty";
+					document.getElementById("filetoUpload").addEventListener('input', function (evt) {
+						if( document.getElementById("filetoUpload").files.length == 0 ){
+							document.getElementById("event_imageSelected").value="empty";
+						}else{
+							document.getElementById("event_imageSelected").value="imageExists";
+						}
+					});
+					
+					//for date picker
+					$('#datepicker').datepicker({
+							uiLibrary: 'bootstrap4'
+							});
+							
+					//for hiding and unhiding objects while radio btn is clicked
+					document.getElementById("event_image_container").style.display = "none"
+					document.getElementById("event_title_container").style.display = "none"
+					document.getElementById("event_body_container").style.display = "none"
+					document.getElementById("event_location_container").style.display = "none"
+					document.getElementById("event_date_container").style.display = "none"
+					document.getElementById("event_vol_container").style.display = "none"
+					document.getElementById("event_delete_container").style.display = "none"
+					document.getElementById("event_submit_button").style.display = "none"
+					
+					var radios = document.forms["eventForm"].elements["type"];
+					for(radio in radios) {
+						//main events
+						radios[0].onclick = function() {
+							document.getElementById("eventType_label").value = "Main Event"
+							document.getElementById("event_image_container").style.display = ""
+							document.getElementById("event_title_container").style.display = ""
+							document.getElementById("event_body_container").style.display = ""
+							document.getElementById("event_location_container").style.display = ""
+							document.getElementById("event_date_container").style.display = ""
+							document.getElementById("event_vol_container").style.display = "none"
+							document.getElementById("event_delete_container").style.display = ""
+							document.getElementById("event_submit_button").style.display = ""
+									}
+						//small events
+						radios[1].onclick = function() {
+							document.getElementById("eventType_label").value = "Small Event"
+							document.getElementById("event_image_container").style.display = ""
+							document.getElementById("event_title_container").style.display = ""
+							document.getElementById("event_body_container").style.display = ""
+							document.getElementById("event_location_container").style.display = ""
+							document.getElementById("event_date_container").style.display = ""
+							document.getElementById("event_vol_container").style.display = ""
+							document.getElementById("event_delete_container").style.display = ""
+							document.getElementById("event_submit_button").style.display = ""
+										}	
+						//Meetings
+						radios[2].onclick = function() {
+						document.getElementById("eventType_label").value = "Meetings"
+							document.getElementById("event_image_container").style.display = "none"
+							document.getElementById("event_title_container").style.display = ""
+							document.getElementById("event_body_container").style.display = ""
+							document.getElementById("event_location_container").style.display = ""
+							document.getElementById("event_date_container").style.display = ""
+							document.getElementById("event_vol_container").style.display = "none"
+							document.getElementById("event_delete_container").style.display = ""
+							document.getElementById("event_submit_button").style.display = ""
+									}
+						//firstAidTips
+						radios[3].onclick = function() {
+							document.getElementById("eventType_label").value = "First Aid"
+							document.getElementById("event_image_container").style.display = "none"
+							document.getElementById("event_title_container").style.display = ""
+							document.getElementById("event_body_container").style.display = ""
+							document.getElementById("event_location_container").style.display = "none"
+							document.getElementById("event_date_container").style.display = "none"
+							document.getElementById("event_vol_container").style.display = "none"
+							document.getElementById("event_delete_container").style.display = "none"
+							document.getElementById("event_submit_button").style.display = ""
+										}
+
+					}
+					
 			
 				
 

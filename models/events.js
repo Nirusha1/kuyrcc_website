@@ -22,14 +22,13 @@ let eventSchema = mongoose.Schema({
 
 	event_location:{
 		type:String,
-		required: true
+		required: false
 	},
 
 	event_date:{
 		type:String,
-		required: true
+		required: false
 	},
-
 	eventVolunteerNo:{
 		type:String,
 		require:false
@@ -45,6 +44,10 @@ let eventSchema = mongoose.Schema({
 	event_image_path:{
 		type:String,
 		required:false
+	},
+	event_type:{
+		type:String,
+		requred:false
 	}
 
 });

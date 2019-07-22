@@ -93,6 +93,11 @@ backend.get('/login', function(req, res){
 			console.log("loginROute");
 });
 
+//Timeline
+backend.get('/timeline', function(req, res){
+			res.render('timeline');
+			console.log("timeline");
+});
 
 //getting single user information
 backend.get("/users/detail/:id",function(req,res){
@@ -127,14 +132,18 @@ backend.get('*', function(req,res,next){
 	res.locals.usersGlobal=req.user || null;
 	eventVariable.find({},function(err,events){
 	res.locals.globalEvents = events;
-	next();
 	});
 	if(!req.user){
 		console.log('Express session is not started');
+		res.locals.globalMember = false
 	}
 	else{
 		console.log('Express session is started');
+		membersVariable.find({member_email:req.user.email},function(err,member){
+			res.locals.globalMember = member;
+		});
 	}
+	next();
 });
 
 //home route
@@ -173,7 +182,18 @@ backend.get('/registerPage/', function(req, res){
 });
 //adding membership form to routes
 backend.get('/form/membership',function(req,res){
-	res.render('membershipForm');
+	if (req.user){
+		membersVariable.find({member_email:req.user.email},function(err,member){
+		res.render('membershipForm',{
+			member:member
+		});
+		});
+	}else{
+				res.render('membershipForm',{
+					member: 0
+				});
+	}
+
 });
 
 backend.get('/eventdetails', function(req,res){
@@ -191,7 +211,14 @@ backend.get('/eventdetails', function(req,res){
 });
 
 //adding contact to routes
-backend.get('/users/contacts', function(req, res){
+backend.get('/users/contacts', function(req, res,next){
+	usersEmail=req.user || null;
+	console.log(res.locals.usersEmail);
+	if (usersEmail != null){
+		email = req.user.email
+	}else{
+		email = ""
+	}
 	contactVariable.find({}, function(err, contacts){
 		if(err){
 			console.log(err);
@@ -199,49 +226,50 @@ backend.get('/users/contacts', function(req, res){
 		else{
 			res.render('contacts',{
 				title:'All Contacts',
-				contacts: contacts
+				contacts: contacts,
+				email:email
 			});
 		}
 	});
-});
-backend.post('/users/contacts',function(req,res){
-	contactVariable.find({}, function(err, contacts){
-	const questionBody = req.body.QuestionBody;
-	req.checkBody('QuestionBody','Make sure field is not empty before submission').notEmpty();
-	let errors =  req.validationErrors();
-	if(errors){
-		req.flash('success','Make sure field is not empty before submission');
-		res.render('contacts',{
-			errors:errors,
-			contacts: contacts
-		});}
-		else{
-			let x = new questionVariable();
-				x.question_body= req.body.QuestionBody;
-				x.question_UserName= req.user.name;
-				x.question_email= req.user.email;
-			x.save(function(err){
-				if(err){
-					console.log(err);
-					return;
-				}else{
-					req.flash('success','Your question has been posted');
-					res.render('contacts',{
-						contacts: contacts
-					});
-				}
-			});
-		}
-	});
+	next()
 });
 
 //for list of events
 backend.get('/eventList', function(req, res){
-		eventVariable.find({}, function(err, events){
+	//eventVariable.find({} , function(err, events){
+		eventVariable.find( {$or: [{event_type:"Main Event"}, {event_type:"Small Event"}]} , function(err, events){
 			if(err){
 				console.log(err);
 			}else{
 				res.render('eventList',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
+
+//for list of events for members
+backend.get('/firstAidTips/', function(req, res){
+		eventVariable.find({event_type:"First Aid"}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('FirstAids',{
+					title:'Event Lists',
+					events: events
+				});
+			}
+		});
+	});
+
+//for list of events for members
+backend.get('/memberEvents/', function(req, res){
+		eventVariable.find({event_type:"Meetings"}, function(err, events){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('eventsForMembers',{
 					title:'Event Lists',
 					events: events
 				});
@@ -385,6 +413,8 @@ global.ensureAuthenticated= function(req, res, next){
 		res.redirect('/frontend');
 	}
 }
+
+
 //admin Access Control
 global.ensureAdminAuthenticated= function(redirectTo){
 		return function(req, res, next){

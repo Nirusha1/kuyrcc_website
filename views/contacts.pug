@@ -11,14 +11,37 @@ block content
         h5= contact_list.Mobile_no
         a(href="/users/contacts/edit/" + contact_list._id)= contact_list.Name
   
-  br      
+  br
+  if usersGlobal
+    if usersGlobal.position == "Admin"
+  .container.text-center.col-4
+    a(href='/users/contacts/checkQuestions')
+      button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button') Check Questions
+      
   .container.text-center.col-8
     h3 Ask Question / Give Review
-    form(method='POST', action='/users/contacts')
-      #form-group
-        textarea.form-control(name='QuestionBody',rows='5',type='text',placeholder="Put your thoughts here")
+    form(method='POST', action='/users/contacts/askQuestion')
+      #form-group  
       .container.row.justify-content-center.my-3
-        input.btn.btn-primary.mx-1(type='submit', value="Send") 
+        input.form-control(id="comment_email",name='user_Email',rows='1',type='email',placeholder="Your email here",value=email)
+      .container.row.justify-content-center.my-3
+        textarea.form-control(id="comment_body",name='QuestionBody',rows='5',type='text',placeholder="Put your thoughts here")
+      .container.row.justify-content-center.my-3
+        input.btn.btn-primary.mx-1(id="comment_submit_btn",type='submit', value="Send", disabled) 
+        
+        
+  
+  script.
+    const emailField = document.getElementById('comment_email');
+    const okButton = document.getElementById('comment_submit_btn');
+    emailField.addEventListener('input', function (event) {
+    isValidEmail = emailField.checkValidity();
+    if ( isValidEmail ) {
+    okButton.disabled = false;
+    } else {
+    okButton.disabled = true;
+    }
+    });
         
         
           
