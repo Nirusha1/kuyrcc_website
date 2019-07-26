@@ -1,0 +1,115 @@
+extends layout
+block content
+	//checking is user exists
+	if users
+		.container
+			h1 Welcome #{users.email}
+			.container
+				h1 welcome #{usersGlobal}
+	// - Image Slider
+		#slides.container.carousel.slide(data-ride='carousel')
+			ul.carousel-indicators
+				li.active(data-target='#slides', data-slide-to='0')
+				li(data-target='#slides', data-slide-to='1')
+				li(data-target='#slides', data-slide-to='2')
+			.carousel-inner
+				.carousel-item.active
+					img(src='red.jpg')
+				.carousel-item
+					img(src='red2.jpg')
+				.carousel-item
+					img(src='red3.jpg')
+			a.carousel-control-prev(href='#slides', data-slide='prev')
+				span.carousel-control-prev-icon
+			a.carousel-control-next(href='#slides', data-slide='next')
+				span.carousel-control-next-icon
+	
+	//image from template	
+<<<<<<< HEAD
+	section.hero-wrap.hero-wrap-2(style="background-image: url('welcome_img.png');", data-stellar-background-ratio='0.5')
+=======
+	section.hero-wrap.hero-wrap-2(style="background-image: url('red2.jpg');", data-stellar-background-ratio='0.5')
+>>>>>>> 6339c3cdbcd1c16d9f846d77a2c8be1c8c819c11
+		.overlay
+		.container
+			.row.no-gutters.slider-text.js-fullheight.align-items-center.justify-content-center
+				.col-md.ftco-animate.pb-2.text-center
+<<<<<<< HEAD
+					h2.mb-2.bread
+=======
+					h2.mb-2.bread Welcome To KUYRCC Site
+>>>>>>> 6339c3cdbcd1c16d9f846d77a2c8be1c8c819c11
+					p.breadcrumbs
+						span.mr-2
+							a(href='/frontend')
+								| Home 
+								i.ion-ios-arrow-forward
+	// - Jumbotron
+
+
+	p.text-info.font-weight-bold.font-italic ..............................................................................................................Current Date: #{moment().format('MM/DD/YYYY')}..................................................................................................
+	
+	// event sections
+	if events
+		.row
+			each event, j in events	
+				if event.event_date >= moment().format('MM/DD/YYYY')
+					.col-sm-6
+						a(href="/eventdetails")
+							.card-deck.mb-5
+								.card.bg-success
+									.card.body.text-center
+										.card.bg-dark
+											h8.card-title.text-warning.text-center.font-italic.font-weight-light By: #{event.event_UserName}
+												if usersGlobal
+													if usersGlobal.id == event.event_Userid
+														a(href="/users/eventList/edit/" + event._id)
+															button.btn.btn-warning.float-md-right(type='button') Edit / Delete
+											a(href="/eventdetails")
+												h3.card-title.text-danger #{event.event_name}
+												//p.card-text.text-light  #{event.event_body}
+												p.card-text.text-light.text-left.font-italic Location:  #{event.event_location}
+												p.card-text.text-light.text-left.font-italic  Date: #{event.event_date}
+												a(href="/users/eventList/comment/" + event._id)
+													button.btn.btn-warning.float-md-right(type='button') Leave a Comment
+												if event.eventVolunteerNo
+														p.card-text.text-success.text-left.font-italic.font-weight-bold Voulnteers on CALL
+														p.card-text.text-success.text-left.font-italic.font-weight-bold || Please fill the volunteer forms  asap
+											
+
+		br
+		br
+
+	// - Welcome Section
+	.container
+		p
+			| Kathmandu University Youth Red Cross Circle is a registered youth  Red cross circle under Banepa Red Cross Chapter.
+			| We are an energetic  group of youth studying at Kathmandu University devoted towards the  social services. 
+			| With pure motive of serving humanity, our circle  organizes different social welfare and awareness programs.
+			br
+			p
+				| Seven Fundamental Principles of Red cross
+				br
+				li
+					|Humanity
+				li
+					|Impartiality
+				li
+					|Neutrality
+				li
+					|Independence
+				li
+					|Voluntary Service
+				li
+					|Unity
+				li
+					|Universality
+	// - Three Column Section
+	// - Two Column Section
+	// - Fixed background
+	// - Emoji Section
+	// - Meet the team
+	// - Cards
+	// - Two Column Section
+	// - Connect
+	// - Footer
