@@ -2,11 +2,8 @@ let mongoose=require('mongoose');
 
 //question schema
 let questionSchema = mongoose.Schema({
-	question_UserName:{
-		type:String,
-		required: true
-	},
-  question_email:{
+
+  user_email:{
 		type:String,
 		required: true
 	},

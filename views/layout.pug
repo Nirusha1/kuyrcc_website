@@ -15,35 +15,59 @@ html
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
 		script(src='https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js', type='text/javascript')
 		link(href='https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css', rel='stylesheet', type='text/css')
+			
+		//script from template
+		link(href='https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900', rel='stylesheet')
+		link(rel='stylesheet', href='/template/css/open-iconic-bootstrap.min.css')
+		link(rel='stylesheet', href='/template/css/animate.css')
+		link(rel='stylesheet', href='/template/css/owl.carousel.min.css')
+		link(rel='stylesheet', href='/template/css/owl.theme.default.min.css')
+		link(rel='stylesheet', href='/template/css/magnific-popup.css')
+		link(rel='stylesheet', href='/template/css/aos.css')
+		link(rel='stylesheet', href='/template/css/ionicons.min.css')
+		link(rel='stylesheet', href='/template/css/bootstrap-datepicker.css')
+		link(rel='stylesheet', href='/template/css/jquery.timepicker.css')
+		link(rel='stylesheet', href='/template/css/flaticon.css')
+		link(rel='stylesheet', href='/template/css/icomoon.css')
+		link(rel='stylesheet', href='/template/css/style.css')
 
 		link(href='style.css', rel='stylesheet')
 	body
 		.container.justify-content-center.text-center
 			!= messages('message',locals)
 		// Header Image
-		.d-flex.justify-content-center
-			img.img-fluid.py-3(src='/KUYRCC.png', alt='KUYRCC logo')
+			.d-flex.justify-content-center
+				img.img-fluid.py-3(src='/KUYRCC.png', alt='KUYRCC logo')
 		// Navigation
-		nav.container.navbar.navbar-expand-md.navbar-light.bg-light.sticky-top
+		//nav.container.navbar.navbar-expand-md.navbar-light.bg-light.sticky-top
+		nav#ftco-navbar.navbar.navbar-expand-lg.navbar-light.ftco_navbar.bg-light.sticky-top
 			.container-fluid
 				a.navbar-brand(href='#')
 					img.img-fluid(src='/kuyrccText.png')
 				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarResponsive')
 					span.navbar-toggler-icon
-				#navbarResponsive.collapse.navbar-collapse
+				#ftco-nav.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto.navbar-left
 						li.nav-item.active
 							a.nav-link(href='/frontend')  Home 
+						//
+							li.nav-item.active
+								a.nav-link(href='/checklist')  CheckList 
+							li.nav-item.active
+								a.nav-link(href='/')  Starting
 						li.nav-item.active
-							a.nav-link(href='/checklist')  CheckList 
-						li.nav-item.active
-							a.nav-link(href='/')  Starting
-						li.nav-item.active
-							a.nav-link(href='/form/membership') Be_a_Member  
+							a.nav-link(href='/form/membership') Be a Member  
 						li.nav-item.active
 							a.nav-link(href='/users/contacts') Contact 
 						li.nav-item.active
-							a.nav-link(href='/users/contacts').mr-5 History
+							a.nav-link(href='/eventList').mr-5 Events
+						li.nav-item.active
+							a.nav-link(href='/firstAidTips/').mr-5 First Aid Tips
+						if globalMember
+							li.nav-item.active
+								a.nav-link(href='/memberEvents/').mr-5 Members events2
+						li.nav-item.active
+							a.nav-link(href='/timeline').mr-5 Timeline					
 					ul.navbar-nav.mr-auto.navbar-right
 						if usersGlobal
 
@@ -52,10 +76,15 @@ html
 								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button',data-toggle='dropdown') Notificaions
 									span.badge.badge-danger.ml-1 4	
 										.dropdown-menu
-											li Notification 1
-											li Notification 2
-											li Notification 3				
-								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log Out
+											if globalEvents
+												each event, j in globalEvents
+													if event.event_createdDate==moment().format('MM/DD/YYYY')
+														li  
+															p Event for #{event.event_name} has been created 
+															p by #{event.event_UserName}
+															p Please check it out...
+																		
+								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log out
 							li.nav-item.active
 								a(href='/users/eventList/CreateEvent')
 									button.btn.ml-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') Create Events
@@ -89,53 +118,89 @@ html
 									input.form-check-input(type='checkbox', name='LoginRemember')
 									|  Remember me
 							.form-group.md-form.mb-5
-								button.btn.btn-deep-orange(type='submit', value='Sumbit') Log In
-		
-		.container
-			block content
-				h1 this is hidden
+								button.btn.btn-outline-info.waves-effect.ml-5(type='submit', value='Sumbit') Log In
 
-		footer
-			hr.light
-			hr.light
-			.container-fluid.padding.bg-info.text-white.col-12
-				.row.text-center.padding.justify-content-center
-					.col-6
-						h1  Associated Partners
-						.row
-							a(href='#')
-								img.img-fluid.zoom(src='icon1.png', width='50px', height='50px')
-							a(href='#')
-								img.zoom(src='icon2.png', width='50px', height='50px')
-							a(href='#')
-								img.zoom(src='icon3.png', width='50px', height='50px')
-
-			.container-fluid.padding.bg-secondary.text-white.col-12
-				.row.text-center
-					.col
-						a(href='#')
-							img(src='img/kuyrccText.png', alt='logo')
-						.text.text-center.text-warning
-							h1 CONTACT US 
-				.row.text-center
-					.col-md-4
-						
-						hr.light
-						p 977-9847-738922
-						p email@gmail.com
-						p Kathmandu University 
-						p Dhulikhel, Kavre 
-					.col-md-4 
-						hr.light
-						p 977-9847-738922
-						p email@gmail.com
-						p Kathmandu University 
-						p Dhulikhel, Kavre 
-					.col-md-4
-						hr.light
-						p 977-9847-738922
-						p email@gmail.com
-						p Kathmandu University 
-						p Dhulikhel, Kavre 
 		
+		block content
+			h1 this is hidden
+
+		footer.ftco-footer.ftco-section
+			.container
+				.row
+					.col-md
+						.ftco-footer-widget.mb-2
+							h2.ftco-heading-2 Aid.
+							p
+								| Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+							h2.ftco-heading-2.mt-2 Associated Partners
+							ul.ftco-footer-social.list-unstyled.float-md-left.float-lft
+								li.ftco-animate
+									a(href='#')
+										span
+											img.zoom(src='icon1.png')
+								li.ftco-animate
+									a(href='#')
+										span
+											img.zoom(src='icon2.png')
+								li.ftco-animate
+									a(href='#')
+										span
+											img.zoom(src='icon3.png')
+					.col-md
+						.ftco-footer-widget.mb-4.ml-md-5
+							h2.ftco-heading-2 Information
+							ul.list-unstyled
+								li
+									a.py-2.d-block(href='#') Donation
+								li
+									a.py-2.d-block(href='#') Privacy
+								li
+									a.py-2.d-block(href='#') Terms Condition
+					.col-md
+						.ftco-footer-widget.mb-4
+							h2.ftco-heading-2 Links
+							ul.list-unstyled
+								li
+									a.py-2.d-block(href='#') Home
+								li
+									a.py-2.d-block(href='#') Who we are
+								li
+									a.py-2.d-block(href='#') Causes
+								li
+									a.py-2.d-block(href='#') Blog
+								li
+									a.py-2.d-block(href='#') Contact
+					.col-md
+						.ftco-footer-widget.mb-4
+							h2.ftco-heading-2 Have a Questions?
+							.block-23.mb-3
+								ul
+									li
+										span.icon.icon-map-marker
+										span.text 203 Fake St. Mountain View, San Francisco, California, USA
+									li
+										a(href='#')
+											span.icon.icon-phone
+											span.text +2 392 3929 210
+									li
+										a(href='#')
+											span.icon.icon-envelope
+											span.text info@yourdomain.com.text
+			
 		script(src='/js/main.js')
+		//script from template
+		script(src='/template/js/jquery.min.js')
+		script(src='/template/js/jquery-migrate-3.0.1.min.js')
+		script(src='/template/js/popper.min.js')
+		script(src='/template/js/bootstrap.min.js')
+		script(src='/template/js/jquery.easing.1.3.js')
+		script(src='/template/js/jquery.waypoints.min.js')
+		script(src='/template/js/jquery.stellar.min.js')
+		script(src='/template/js/owl.carousel.min.js')
+		script(src='/template/js/jquery.magnific-popup.min.js')
+		script(src='/template/js/aos.js')
+		script(src='/template/js/jquery.animateNumber.min.js')
+		script(src='/template/js/scrollax.min.js')
+		script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false')
+		script(src='/template/js/google-map.js')
+		script(src='/template/js/main.js')

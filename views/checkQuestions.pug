@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  table.table
+    thead.thead-dark
+      tr
+        th(scope='col') #
+        th(scope='col') Email
+        th(scope='col') Question
+        th(scope='col') Reply
+    tbody
+      if questions
+        each question, j in questions
+          tr
+            th(scope='row') #{j+1}
+            td #{question.user_email}
+            td #{question.question_body}
+            td 
+              form(method='POST', action='/users/contacts/sendReply/'+question._id)
+                .row
+                  input.form-control(name='user_email',type='hidden',value= question.user_email)
+                  .col-md
+                    input.form-control(name='reply_text',rows='1',type='text',placeholder="Reply to "+question.user_email)
+                  .col-sm
+                    input.btn.btn-primary.mx-1(id="reply_submit_btn",type='submit', value="Reply")
+
+          
+      
+
+                

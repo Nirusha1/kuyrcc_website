@@ -5,15 +5,21 @@ var uniqueValidator = require('mongoose-unique-validator');
 let userSchema=mongoose.Schema({
 	name:{
 		type:String,
-		required: true,
-		unique:true
+		required: true
 	},
 	email:{
 		type:String,
 		required: true,
 		unique: true
 	},
-
+	user_auth:{
+		type:Boolean,
+		required:true
+	},
+	random_number:{
+		type:String,
+		required:false
+	},
 	pwd:{
 		type:String,
 		required: true
@@ -21,6 +27,14 @@ let userSchema=mongoose.Schema({
 	conpwd:{
 		type:String,
 		required: true
+	},
+	deleteDate:{
+		type:String,
+		required: false
+	},
+	position:{
+		type:String,
+		required: false
 	}
 });
 
