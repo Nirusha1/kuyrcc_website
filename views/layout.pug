@@ -3,6 +3,7 @@ html
 	head
 		meta(charset='utf-8')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
+
 		title KUYRCC Site
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
@@ -11,11 +12,12 @@ html
 		script(src='https://use.fontawesome.com/releases/v5.0.8/js/all.js')
 		
 		//this script is for date picker used in membership.pug
+	
 		script(src='https://code.jquery.com/jquery-3.3.1.min.js')
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
 		script(src='https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js', type='text/javascript')
 		link(href='https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css', rel='stylesheet', type='text/css')
-			
+				
 		//script from template
 		link(href='https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900', rel='stylesheet')
 		link(rel='stylesheet', href='/template/css/open-iconic-bootstrap.min.css')
@@ -43,7 +45,7 @@ html
 		nav#ftco-navbar.navbar.navbar-expand-lg.navbar-light.ftco_navbar.bg-light.sticky-top
 			.container-fluid
 				a.navbar-brand(href='#')
-					img.img-fluid(src='/kuyrccText.png')
+					img.img-fluid(src='/kuyrcc_logo.png')
 				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarResponsive')
 					span.navbar-toggler-icon
 				#ftco-nav.collapse.navbar-collapse
@@ -129,9 +131,16 @@ html
 				.row
 					.col-md
 						.ftco-footer-widget.mb-2
-							h2.ftco-heading-2 Aid.
-							p
-								| Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+							h2.ftco-heading-2 Get Involved
+							ul.list-unstyled
+								li
+									a.py-2.d-block(href='/form/membership') Become a member
+								li
+									a.py-2.d-block(href='https://www.facebook.com/KUYouthRedCrossCircle/') Like our facebook page
+								li
+									a.py-2.d-block(href='https://www.facebook.com/groups/redcross.kuyrcc/') Join our facebook group
+									
+				
 							h2.ftco-heading-2.mt-2 Associated Partners
 							ul.ftco-footer-social.list-unstyled.float-md-left.float-lft
 								li.ftco-animate
@@ -156,20 +165,20 @@ html
 									a.py-2.d-block(href='#') Privacy
 								li
 									a.py-2.d-block(href='#') Terms Condition
-					.col-md
-						.ftco-footer-widget.mb-4
-							h2.ftco-heading-2 Links
-							ul.list-unstyled
-								li
-									a.py-2.d-block(href='#') Home
-								li
-									a.py-2.d-block(href='#') Who we are
-								li
-									a.py-2.d-block(href='#') Causes
-								li
-									a.py-2.d-block(href='#') Blog
-								li
-									a.py-2.d-block(href='#') Contact
+					//- .col-md
+					//- 	.ftco-footer-widget.mb-4
+					//- 		h2.ftco-heading-2 Links
+					//- 		ul.list-unstyled
+					//- 			li
+					//- 				a.py-2.d-block(href='#') Home
+					//- 			li
+					//- 				a.py-2.d-block(href='#') Who we are
+					//- 			li
+					//- 				a.py-2.d-block(href='#') Causes
+					//- 			li
+					//- 				a.py-2.d-block(href='#') Blog
+					//- 			li
+					//- 				a.py-2.d-block(href='#') Contact
 					.col-md
 						.ftco-footer-widget.mb-4
 							h2.ftco-heading-2 Have a Questions?
@@ -177,16 +186,15 @@ html
 								ul
 									li
 										span.icon.icon-map-marker
-										span.text 203 Fake St. Mountain View, San Francisco, California, USA
+										span.text Kathmandu University, Dhulikhel, Province No. 3, Nepal
 									li
 										a(href='#')
 											span.icon.icon-phone
-											span.text +2 392 3929 210
+											span.text 9841232345
 									li
 										a(href='#')
 											span.icon.icon-envelope
-											span.text info@yourdomain.com.text
-			
+											span.text Email: kuyrcc@gmail.com			
 		script(src='/js/main.js')
 		//script from template
 		script(src='/template/js/jquery.min.js')

@@ -24,8 +24,22 @@ const storage= multer.diskStorage({
 
 //initialize upload
 const upload = multer({
-	storage: storage
+	storage: storage,
+  fileFilter: function(req, file, callback){
+    validateFile(file, callback);
+  }
 }).single('events_image');
+
+var validateFile = function(file, cb ){
+  allowedFileTypes = /jpeg|jpg|png|gif/;
+  const extension = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimeType  = allowedFileTypes.test(file.mimetype);
+  if(extension && mimeType){
+    return cb(null, true);
+  }else{
+    cb("Invalid file type. Only JPEG, PNG and GIF file are allowed.")
+  }
+}
 
 
 //users Events
@@ -71,41 +85,65 @@ router.get('/:id', function(req, res){
 router.post('/CreateEvent', function(req, res){
 	upload(req, res, (err)=>{
 		if(err){
-			console.log('error in event create route');
-		}
-		else{
-      let fullPath = " "
-      imageExists = req.body.event_imageSelected
-      console.log(imageExists);
-      if( imageExists == "imageExists" )
-        fullPath = "uploads/" + req.file.filename;
-      else
-        fullPath = " "
-        // try to make a image if image doest exists
-      dateToDelete = parseInt(req.body.event_dateToDelete);
-			var document = {
-				event_UserName:req.user.name,
-				event_Userid:req.user.id,
-				event_name:req.body.event_name,
-				event_body:req.body.event_body,
-				event_location:req.body.event_location,
-				event_date:req.body.event_date,
-        eventVolunteerNo:req.body.eventVolunteerNo,
-        event_type:req.body.event_type,
-				event_image_path: fullPath,
-        //to delete event after certain day
-      	event_createdDate: moment().format('MM/DD/YYYY'),
-      	//event_deleteDate: moment(this.event_date).add(dateToDelete,"days").format('MM/DD/YYYY')
+      req.flash('danger', 'The selected file is not an image!!')
+      res.redirect('/users/eventList/CreateEvent');
+        }
+    else{
+      if (req.file == undefined){
+        let sF= new eventVariable({
+          event_UserName:req.user.name,
+          event_Userid:req.user.id,
+          event_name:req.body.event_name,
+          event_body:req.body.event_body,
+          event_location:req.body.event_location,
+          event_date:req.body.event_date,
+          eventVolunteerNo:req.body.eventVolunteerNo,
+          event_type:req.body.event_type,
+          event_image_path: null,
+          event_createdDate: moment().format('MM/DD/YYYY'),
+        });
+        sF.save(function(error){
+          if(error){
+            throw error;
+          }
+          res.redirect('/');
+        });
+      }
+      else{
+        let fullPath = " "
+        imageExists = req.body.event_imageSelected
+        console.log(imageExists);
+        if( imageExists == "imageExists" )
+          fullPath = "uploads/" + req.file.filename;
+        else
+          fullPath = " "
+          // try to make a image if image doest exists
+        dateToDelete = parseInt(req.body.event_dateToDelete);
+        var document = {
+          event_UserName:req.user.name,
+          event_Userid:req.user.id,
+          event_name:req.body.event_name,
+          event_body:req.body.event_body,
+          event_location:req.body.event_location,
+          event_date:req.body.event_date,
+          eventVolunteerNo:req.body.eventVolunteerNo,
+          event_type:req.body.event_type,
+          event_image_path: fullPath,
+          //to delete event after certain day
+          event_createdDate: moment().format('MM/DD/YYYY'),
+          //event_deleteDate: moment(this.event_date).add(dateToDelete,"days").format('MM/DD/YYYY')
 
-			};
-			let x = new eventVariable(document);
-			x.save(function(error){
-				if(error){
-					throw error;
-				}
-				res.redirect('/');
-			});
-		}
+        };
+        let x = new eventVariable(document);
+        x.save(function(error){
+          if(error){
+            throw error;
+          }
+          res.redirect('/');
+        });
+      }
+    }
+
 	});
 });
 

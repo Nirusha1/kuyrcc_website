@@ -24,6 +24,14 @@ block content
 							label.form-check-label First Aid Tips
 						
 				.container(id="event_image_container")
+					.row
+						.col.s12
+							if msg ==1
+								.success 
+									|Photo uploaded successfully
+							else if msg ==2
+								.error 
+									|Invalid file type. Only JPG, PNG or GIF file are allowed.
 					#form-group
 						label(id="events_image") Upload Image:
 						input#filetoUpload.form-control(name='events_image', type='file')
@@ -45,9 +53,13 @@ block content
 						
 				.container(id="event_date_container")
 					#form-group
-						label(id="eventDate") Event Date:	
+						label Event Date:	
 						input#datepicker.form-control.col-8(name='event_date')
-							
+				script.
+					$('#datepicker').datepicker({
+					uiLibrary: 'bootstrap4'
+					});
+					
 				.container(id="event_vol_container")
 					#form-group
 						label(id="event_vol") Do you require the "VOLUNTEER CALLS" for your event?
@@ -82,9 +94,9 @@ block content
 					});
 					
 					//for date picker
-					$('#datepicker').datepicker({
-							uiLibrary: 'bootstrap4'
-							});
+					//- $('#datepicker').datepicker({
+					//- 		uiLibrary: 'bootstrap4'
+					//- 		});
 							
 					//for hiding and unhiding objects while radio btn is clicked
 					document.getElementById("event_image_container").style.display = "none"
