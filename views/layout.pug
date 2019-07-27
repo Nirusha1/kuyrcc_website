@@ -32,7 +32,7 @@ html
 		link(rel='stylesheet', href='/template/css/style.css')
 
 		link(href='style.css', rel='stylesheet')
-	body
+	body(style=' color:#000000;')
 		.container.justify-content-center.text-center
 			!= messages('message',locals)
 		// Header Image
@@ -50,47 +50,30 @@ html
 					ul.navbar-nav.mr-auto.navbar-left
 						li.nav-item.active
 							a.nav-link(href='/frontend')  Home 
-						//
-							li.nav-item.active
-								a.nav-link(href='/checklist')  CheckList 
-							li.nav-item.active
-								a.nav-link(href='/')  Starting
-						li.nav-item.active
-							a.nav-link(href='/form/membership') Be a Member  
-						li.nav-item.active
-							a.nav-link(href='/users/contacts') Contact 
 						li.nav-item.active
 							a.nav-link(href='/eventList').mr-5 Events
 						li.nav-item.active
-							a.nav-link(href='/firstAidTips/').mr-5 First Aid Tips
+							a.nav-link(href='/firstAidTips/').mr-5 First Aid
 						if globalMember
 							li.nav-item.active
-								a.nav-link(href='/memberEvents/').mr-5 Members events2
+								a.nav-link(href='/memberEvents/').mr-5 Member's Event 	
+						ul.navbar-nav.mr-auto.navbar-right
 						li.nav-item.active
-							a.nav-link(href='/timeline').mr-5 Timeline					
-					ul.navbar-nav.mr-auto.navbar-right
+							a.nav-link(href='/timeline').mr-5 Timeline
+						li.nav-item.active
+							a.nav-link(href='/form/membership') Be a Member
+						li.nav-item.active
+							a.nav-link(href='/users/contacts') Contact
 						if usersGlobal
-
 							li.nav-item.active
 								.text.text-dark.font-italic.font-weight-bold.ml-5.mb-2 #{usersGlobal.name}
-								button.btn.ml-5.btn-dark.waves-effect.mr-0.float-md-right(type='button',data-toggle='dropdown') Notificaions
-									span.badge.badge-danger.ml-1 4	
-										.dropdown-menu
-											if globalEvents
-												each event, j in globalEvents
-													if event.event_createdDate==moment().format('MM/DD/YYYY')
-														li  
-															p Event for #{event.event_name} has been created 
-															p by #{event.event_UserName}
-															p Please check it out...
-																		
-								a.nav-link(href='/logout').active.text-danger.font-weight-bold.ml-5.mr-5 Log out
+								a.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(href='/logout/') Log out
 							li.nav-item.active
 								a(href='/users/eventList/CreateEvent')
 									button.btn.ml-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') Create Events
-									
-									a(href='/users/contacts')
-										button.btn.ml-2.mt-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') New Contacts
+									//
+										a(href='/users/contacts')
+											button.btn.ml-2.mt-2.btn-warning.waves-effect.mr-0.float-md-right(type='button') New Contacts
 						else
 							li
 								button.btn.btn-outline-info.waves-effect.ml-0.float-md-right(type='button', data-toggle='modal', data-target='#modalLoginForm') Log In

@@ -1,30 +1,28 @@
 extends layout
 
 block content
-    .container
-    h1.text-center Lists of Volunteers
-    .row
-        .col
-            h3 Name
-        .col
-            h3 Address
-        .col
-            h3 Phone
-        .col
-            h3 Facebook
-        .col
-            h3 Emails
-    each volunteer, i in volunteers
-        .row
-            .col
-                p #{volunteer.volunteer_name}
-            .col
-                p #{volunteer.volunteer_address}
-            .col
-                p #{volunteer.volunteer_phone}
-            .col
-                p #{volunteer.volunteer_fb}
-            .col
-                p #{volunteer.volunteer_email}
+  .row
+    .container.text-center
+      table.table.table-hoverr
+        h1.text-center Lists of Volunteers
+        thead.thead-dark
+          tr
+            th(scope='col') #
+            th(scope='col') Name
+            th(scope='col') Email
+            th(scope='col') Phone
+            th(scope='col') Facebook
+            th(scope='col') Address
+        tbody
+          if volunteers
+            each volunteer, j in volunteers
+              a(href="")
+                tr(class="table-row" data-href="" style='cursor:pointer;')
+                  th(scope='row') #{j+1}
+                  td #{volunteer.volunteer_name}
+                  td #{volunteer.volunteer_address} 
+                  td #{volunteer.volunteer_phone} 
+                  td #{volunteer.volunteer_fb}
+                  td #{volunteer.volunteer_email}
 
   

@@ -93,13 +93,15 @@ router.delete('/:eventID/:commentId',ensureAuthenticated,  function(req, res){
 //deleting comments
 router.get('/:eventID/:commentID/deleteComment', function(req, res){
 	replyVariable.find({reply_event_id:req.params.eventID},function(err,replies){
-		commentVariable.findOneAndDelete(req.params.commentID, function(err,deletedComments){
-			eventVariable.findById(req.params.eventID, function(err, events){
-				commentVariable.find({comment_event_id:req.params.eventID}, function(err, comments){
-					res.render('comment_event',{
-						events: events || null,
-						comments : comments,
-						replies: replies || null
+		commentVariable.deleteOne({_id:req.params.commentID}, function(err,deletedComments){
+			replyVariable.deleteMany({reply_comment_id:req.params.commentID},function(err,deletedReplies){
+				eventVariable.findById(req.params.eventID, function(err, events){
+					commentVariable.find({comment_event_id:req.params.eventID}, function(err, comments){
+						res.render('comment_event',{
+							events: events || null,
+							comments : comments,
+							replies: replies || null
+						});
 					});
 				});
 			});
@@ -159,7 +161,8 @@ router.post('/:id/updateReply/', function(req, res){
 
 //deleting reply
 router.get('/:eventID/:replyID/deleteReply/', function(req, res){
-	replyVariable.findOneAndDelete(req.params.replyID,function(err,deletedReply){
+	replyVariable.deleteOne({_id:req.params.replyID},function(err,deletedReply){
+		console.log(deletedReply);
 		eventVariable.findById(req.params.eventID, function(err, events){
 			commentVariable.find({comment_event_id:req.params.eventID}, function(err, comments){
 				replyVariable.find({reply_event_id:req.params.eventID},function(err,replies){

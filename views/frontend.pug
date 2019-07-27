@@ -40,7 +40,87 @@ block content
 
 
 	p.text-info.font-weight-bold.font-italic ..............................................................................................................Current Date: #{moment().format('MM/DD/YYYY')}..................................................................................................
-	
+
+	if events
+		.row
+			.container.col-10.text-center
+								a(href="/eventList")
+									.card-deck.mb-5
+										.card.bg-success
+											.card.body
+												.card
+													.row 
+														.col-4
+																a(href="/eventList")
+																	img.img-fluid(src='/red.jpg', alt="Main event name" )
+														.col-7
+															-var i = 0
+															each event, j in events
+																if event.event_type == "Main Event" || event.event_type == "Small Event"
+																	- i = i +1
+																	a(href="users/eventList/comment/" + event._id)
+																		.row
+																			.col
+																				p.card-title.text-danger #{event.event_name}
+																			.col
+																				p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
+																	if i == 4
+																		-break
+															a(href="/eventList")
+																button.btn.btn-warning.float-md-right(type='button') See More
+		.row
+			.container.col-10.text-center
+								a(href="/firstAidTips/")
+									.card-deck.mb-5
+										.card.bg-success
+											.card.body
+												.card
+													.row 
+														.col-4
+																a(href="/firstAidTips/")
+																	img.img-fluid(src='/red.jpg', alt="Main event name" )
+														.col-7
+															-var i = 0
+															each event, j in events
+																if event.event_type == "First Aid" 
+																	- i = i +1
+																	a(href="users/eventList/comment/" + event._id)
+																		.row
+																			.col
+																				p.card-title.text-danger #{event.event_name}
+																			.col
+																				p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
+																	if i == 4
+																		-break
+															a(href="/firstAidTips/")
+																button.btn.btn-warning.float-md-right(type='button') See More
+		if globalMember
+			.row
+				.container.col-10.text-center
+									a(href="/memberEvents")
+										.card-deck.mb-5
+											.card.bg-success
+												.card.body
+													.card
+														.row 
+															.col-4
+																	a(href="/memberEvents")
+																		img.img-fluid(src='/red.jpg', alt="Main event name" )
+															.col-7
+																-var i = 0
+																each event, j in events
+																	if event.event_type == "Meetings"
+																		- i = i +1
+																		a(href="users/eventList/comment/" + event._id)
+																			.row
+																				.col
+																					p.card-title.text-danger #{event.event_name}
+																				.col
+																					p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
+																		if i == 4
+																			-break
+																a(href="/memberEvents/")
+																	button.btn.btn-warning.float-md-right(type='button') See More
 	// event sections
 	if events
 		.row

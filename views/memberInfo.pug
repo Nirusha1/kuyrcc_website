@@ -1,90 +1,88 @@
 extends layout
 
 block content
-  
-  .container.text-center.mt-4.col-8
-    h1 Edit MemberShip Form
-  .container.text-left.mt-4.col-7    
-    form.was-validated(method="POST",action='/members/editMemberForm/'+members._id)
-      .form-group.mt-4.row
-        .col-sm
-          label(for='text') First Name
-          input#text.form-control(type='text', value=members.member_Fname, name='member_Fname')
-        .col-sm
-          label(for='text') Middle Name
-          input#text.form-control(type='text', value=members.member_Mname, name='member_Mname')
-        .col-sm
-          label(for='text') Last Name
-          input#text.form-control(type='text', value=members.member_Lname, name='member_Lname')
-      .form-group
-        label(for='email') Email:
-        input#email.form-control(type='email', value=members.member_email, name='member_email')
-      .form-group
-        label(for='text') Contact Number:
-        input#pwd.form-control(type='number', value=members.member_phone, name='member_phone')
-      .form-group
-        label(for='text') Date of Birth 
-        input#datepicker.form-control.col-8(value=members.member_DOB, name='member_DOB')
-        script.
-          $('#datepicker').datepicker({
-          uiLibrary: 'bootstrap4'
-          });
-      .form-group.mt-4.row
-        .col-sm
-          label Blood Group
-          select.form-control(name='member_blood')
-            option(value=members.member_blood selected) #{members.member_blood}
-            option(value='A+') A+
-            option(value='A-') A-
-            option(value='B+') B+
-            option(value='B-') B-
-            option(value='O+') O+
-            option(value='O-') O-
-            option(value='AB+') AB+
-            option(value='AB-') AB-
-            option(value='Unknown') Unknown
-        .col-sm
-          label Gender`
-          select.form-control(name='member_gender')
-            option(value=members.member_gender selected) #{members.member_gender}
-            option(value='Male') Male
-            option(value='Female') Female
-            option(value='Others') Others
- 
-      .form-group.mt-4.row
-        .col-sm
-          label Department`
-          select.form-control(name='member_department')
-            option(value=members.member_department selected) #{members.member_department}
-            option(value='CE') CE
-            option(value='Civil') Civil
-            option(value='ME') ME
-            option(value='EE') EE
-            option(value='Pharm') Pharm
-            option(value='GE') GE
-        .col-sm
-          label Year`
-          select.form-control(name='member_year')
-            option(value=members.member_year selected) #{members.member_year}
-            option(value='First') First
-            option(value='Second') Second
-            option(value='Third') Third 
-            option(value='Fourth') Fourth 
-      .form-group
-        label(for='text') Current Address:
-        input#pwd.form-control(type='text-center', value=members.member_address, name='member_address')
-      .form-group
-        label(for='text') Position:
-        select.form-control(name='member_position')
-          option(value=members.member_position selected) #{members.member_position}
-          option(value='Admin') Admin
-          option(value='President') President
-          option(value='Board') Board-member
-          option(value='Executive') Executive
-          option(value='Member') Member
-          option(value="Non-Member") Non-Member
-              
-      .form-group.text-center
-        button.btn.btn-deep-orange(type='submit', value="submit") UPDATE
-        a.btn.btn-danger.delete-member.mx-1(href="#", data-id = members._id) DELETE 
-  
+  .row
+    .container.text-center.mt-4.col-8
+      h1 Edit MemberShip Form
+    .container.text-left.mt-4.col-7    
+      form.was-validated(method="POST",action='/members/editMemberForm/'+members._id)
+        .form-group.mt-4.row
+          .col-sm
+            label(for='text') First Name
+            input#text.form-control(type='text', value=members.member_Fname, name='member_Fname')
+          .col-sm
+            label(for='text') Middle Name
+            input#text.form-control(type='text', value=members.member_Mname, name='member_Mname')
+          .col-sm
+            label(for='text') Last Name
+            input#text.form-control(type='text', value=members.member_Lname, name='member_Lname')
+        .form-group
+          label(for='email') Email:
+          input#email.form-control(type='email', value=members.member_email, name='member_email')
+        .form-group
+          label(for='text') Contact Number:
+          input#pwd.form-control(type='number', value=members.member_phone, name='member_phone')
+        .form-group
+          label(for='text') Date of Birth 
+          input#datepicker.form-control.col-8(value=members.member_DOB, name='member_DOB')
+          script.
+            $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4'
+            });
+        .form-group.mt-4.row
+          .col-sm
+            label Blood Group
+            select.form-control(name='member_blood')
+              option(value=members.member_blood selected) #{members.member_blood}
+              option(value='A+') A+
+              option(value='A-') A-
+              option(value='B+') B+
+              option(value='B-') B-
+              option(value='O+') O+
+              option(value='O-') O-
+              option(value='AB+') AB+
+              option(value='AB-') AB-
+              option(value='Unknown') Unknown
+          .col-sm
+            label Gender`
+            select.form-control(name='member_gender')
+              option(value=members.member_gender selected) #{members.member_gender}
+              option(value='Male') Male
+              option(value='Female') Female
+              option(value='Others') Others
+   
+        .form-group.mt-4.row
+          .col-sm
+            label Department`
+            select.form-control(name='member_department')
+              option(value=members.member_department selected) #{members.member_department}
+              option(value='CE') CE
+              option(value='Civil') Civil
+              option(value='ME') ME
+              option(value='EE') EE
+              option(value='Pharm') Pharm
+              option(value='GE') GE
+          .col-sm
+            label Year`
+            select.form-control(name='member_year')
+              option(value=members.member_year selected) #{members.member_year}
+              option(value='First') First
+              option(value='Second') Second
+              option(value='Third') Third 
+              option(value='Fourth') Fourth 
+        .form-group
+          label(for='text') Current Address:
+          input#pwd.form-control(type='text-center', value=members.member_address, name='member_address')
+        .form-group
+          label(for='text') Position:
+          select.form-control(name='member_position')
+            option(value=members.member_position selected) #{members.member_position}
+            option(value='Admin') Admin
+            option(value='Board Member') Board-member
+            option(value='Member') Member
+            option(value="Non-Member") Non-Member
+                
+        .form-group.text-center
+          button.btn.btn-deep-orange(type='submit', value="submit") UPDATE
+          a.btn.btn-danger.delete-member.mx-1(href="#", data-id = members._id) DELETE 
+    

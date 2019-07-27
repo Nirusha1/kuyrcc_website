@@ -184,6 +184,10 @@ backend.get('/registerPage/', function(req, res){
 backend.get('/form/membership',function(req,res){
 	if (req.user){
 		membersVariable.find({member_email:req.user.email},function(err,member){
+			console.log(member);
+			if (member.length==0){
+				member = 0
+			}
 		res.render('membershipForm',{
 			member:member
 		});
@@ -435,6 +439,29 @@ global.ensureAdminAuthenticated= function(redirectTo){
 				res.redirect(redirectTo);}
 	}
 }
+//admin Access Control
+global.ensureBoardAuthenticated= function(redirectTo){
+		return function(req, res, next){
+		if (req.isAuthenticated()){
+		membersVariable.find({member_email:req.user.email},function(err,member){ //search for member
+			if(member.length==0){ //if user is not member
+				req.flash('danger','Your Account is not Verified Member. This is for Admin Access');
+				res.redirect(redirectTo);
+			}else{
+				if (member[0].member_position == 'Board Member' ) //if the user is admin or board
+					return next();
+				if (member[0].member_position == 'Admin' ) //if the user is admin or board
+					return next();
+				else{ //if user is a member but not admin
+					req.flash('danger','Only Admin could access this');
+					res.redirect(redirectTo);}}
+			});
+		}else{ //if user hasnt login
+				req.flash('danger', 'Please Login');
+				res.redirect(redirectTo);}
+	}
+}
+
 
 
 //Route Files

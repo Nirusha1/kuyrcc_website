@@ -30,22 +30,22 @@ block content
 							
 				.container(id="event_title_container")
 					#form-group
-						label(id="event_title") Event Title:
+						label(id="event_title") Title:
 						input.form-control(id ="event_title_area",name='event_name',type='text')
 							
 				.container(id="event_body_container")
 					#form-group
-						label(id="event_body") Event Informations:
+						label(id="event_body") Informations:
 						textarea.form-control(id="event_body_area",name='event_body',row='5',type='text')
 						
 				.container(id="event_location_container")
 					#form-group
-						label(id="event_location") Event Location:
+						label(id="event_location") Location:
 						textarea.form-control(id="event_location_area",name='event_location',row='5',type='text')
 						
 				.container(id="event_date_container")
 					#form-group
-						label(id="eventDate") Event Date:	
+						label(id="eventDate") Date:	
 						input#datepicker.form-control.col-8(name='event_date')
 							
 				.container(id="event_vol_container")
@@ -106,8 +106,8 @@ block content
 							document.getElementById("event_body_container").style.display = ""
 							document.getElementById("event_location_container").style.display = ""
 							document.getElementById("event_date_container").style.display = ""
-							document.getElementById("event_vol_container").style.display = "none"
-							document.getElementById("event_delete_container").style.display = ""
+							document.getElementById("event_vol_container").style.display = ""
+							document.getElementById("event_delete_container").style.display = "none"
 							document.getElementById("event_submit_button").style.display = ""
 									}
 						//small events
@@ -125,7 +125,7 @@ block content
 						//Meetings
 						radios[2].onclick = function() {
 						document.getElementById("eventType_label").value = "Meetings"
-							document.getElementById("event_image_container").style.display = "none"
+							document.getElementById("event_image_container").style.display = ""
 							document.getElementById("event_title_container").style.display = ""
 							document.getElementById("event_body_container").style.display = ""
 							document.getElementById("event_location_container").style.display = ""
@@ -137,7 +137,7 @@ block content
 						//firstAidTips
 						radios[3].onclick = function() {
 							document.getElementById("eventType_label").value = "First Aid"
-							document.getElementById("event_image_container").style.display = "none"
+							document.getElementById("event_image_container").style.display = ""
 							document.getElementById("event_title_container").style.display = ""
 							document.getElementById("event_body_container").style.display = ""
 							document.getElementById("event_location_container").style.display = "none"
