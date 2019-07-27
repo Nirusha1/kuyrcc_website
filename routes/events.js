@@ -44,7 +44,7 @@ var validateFile = function(file, cb ){
 
 //users Events
 //add routes for creating events and deleting not required events
-router.get('/CreateEvent',ensureAuthenticated, function(req, res){
+router.get('/CreateEvent',ensureBoardAuthenticated("/"), function(req, res){
 	currentDate = moment().format('MM/DD/YYYY');
 	eventVariable.deleteMany({event_deleteDate:{$gte:currentDate}},function(err,deletedEvent){
 				if(err){

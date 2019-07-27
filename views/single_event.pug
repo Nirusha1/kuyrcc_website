@@ -7,9 +7,9 @@ block content
 					h1.card-title.text-danger.text-center #{event.event_name}
 					h8.text-warning.text-right.font-italic.font-weight-bold.ml-5.mt-5  @ #{event.event_UserName}
 					h8.text-warning.text-right.font-italic.font-weight-bold.ml-5.mt-5 	Leave a comment
+					p #{ usersGlobal.id} #{event.event_Userid}
 					if usersGlobal
 							if usersGlobal.id == event.event_Userid
-								
 								a(href="/users/eventList/edit/" + event._id)
 									button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') Edit / Delete
 								if event.eventVolunteerNo

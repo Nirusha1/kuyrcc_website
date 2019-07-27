@@ -16,32 +16,34 @@ block content
               span
                 | Events
                 i.ion-ios-arrow-forward
-  .container              
+            span
+              | Events
+              i.ion-ios-arrow-forward
+  .container.pt-3              
         .row.d-flex
           each event, j in events
             .col-md-4.ftco-animate
               .blog-entry
-                a.block-20(href="/users/eventList/edit/" + event._id, style="background-image: url("+event.event_image_path+");")
+                a.block-20(href="/users/eventList/comment/" + event._id, style="background-image: url("+event.event_image_path+");")
                 .text.d-block
                   .meta.mb-3
                     div
-                      a(href='#') #{event.event_date}
+                      p #{event.event_date}
                     div
-                      a(href='#') #{event.event_UserName}
+                      p #{event.event_UserName}
                     //
                       div
                         a.meta-chat(href='#')
                           span.icon-chat
                           |  3
                   h3.heading
-                    a(href='#') #{event.event_name}
-                  p
+                    a(href="/users/eventList/comment/" + event._id) #{event.event_name}
+                  
+                  p(style=' height:60px; line-height:20px; overflow:hidden;')
                     | #{event.event_body}
                   .row
                     .col-sm
                         a.btn.btn-primary.my-2(href="/users/eventList/comment/" + event._id) Read more...
-                    .col-sm
-                        a.btn.btn-primary.my-2(href="/users/eventList/comment/" + event._id) Comment
                     .col-sm
                       if usersGlobal
                         if usersGlobal.id == event.event_Userid

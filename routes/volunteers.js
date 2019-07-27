@@ -34,7 +34,7 @@ router.post('/CreateVolunteers/:eventid', function(req, res){
 			return;
 		}
 		else{
-			res.redirect('/');
+			res.redirect('/users/eventList/comment/'+req.params.eventid);
 		}
 	});
 
@@ -43,7 +43,7 @@ router.post('/CreateVolunteers/:eventid', function(req, res){
 
 
 router.get('/ViewVolunteers/:eventid', function(req, res){
-	volunteerVariable.find({}, function(err, volunteers){
+	volunteerVariable.find({volunteer_eventid:req.params.eventid}, function(err, volunteers){
 		if(err){
 			console.log(err);
 		}

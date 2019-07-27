@@ -1,28 +1,30 @@
 extends layout
 
 block content
-	.container.text-center.col-4
-		form(method='POST', action='/users/volunteers/CreateVolunteers/'+ events._id)
-			#form-group
-				label Name:
-				input.form-control(name='volunteer_name',type='text')
+	.row
+		.container.col-9
+			form(method='POST', action='/users/volunteers/CreateVolunteers/'+ events._id)
+				#form-group
+					label Name:
+					input.form-control(name='volunteer_name',type='text')
+					
+				#form-group
+					label Address:
+					input.form-control(name='volunteer_address',row='5',type='text')
+
+				#form-group
+					label Phone Number:
+					input.form-control(name='volunteer_phone',row='5',type='text')
+
+				#form-group
+					label Facebook ID:
+					input.form-control(name='volunteer_fb',row='5',type='text')
+
+				#form-group
+					label Email:
+					input.form-control(name='volunteer_email',row='5',type='text')
+
 				
-			#form-group
-				label Address:
-				textarea.form-control(name='volunteer_address',row='5',type='text')
 
-			#form-group
-				label Phone Number:
-				textarea.form-control(name='volunteer_phone',row='5',type='text')
-
-			#form-group
-				label Facebook ID:
-				textarea.form-control(name='volunteer_fb',row='5',type='text')
-
-			#form-group
-				label Email:
-				textarea.form-control(name='volunteer_email',row='5',type='text')
-
-			
-
-			input.btn.btn-primary(type='submit', value="Create")
+				.form-group.text-center.py-3
+					button.btn.btn-outline-info.waves-effect(type='submit', value="submit") Join as Volunteer
