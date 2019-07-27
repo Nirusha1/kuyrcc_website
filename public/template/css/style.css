@@ -8380,14 +8380,14 @@ h1, h2, h3, h4, h5,
       .hero-wrap .overlay {
         opacity: 0; } }
   .hero-wrap.hero-wrap-2 {
-    height: 450px; }
+    height: 470px; }
     .hero-wrap.hero-wrap-2 .overlay {
       background: #000000;
       width: 100%;
-      /*opacity: .3;*/
-      height: 450px; }
+      opacity: .3;
+      height: 550px; }
     .hero-wrap.hero-wrap-2 .slider-text {
-      height: 450px; }
+      height: 550px; }
 
 .slider-text {
   position: relative;
