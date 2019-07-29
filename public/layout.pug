@@ -51,37 +51,27 @@ html
 					ul.navbar-nav.mr-auto.navbar-left
 						li.nav-item.active
 							a.nav-link(href='/frontend')  Home 
-						//
-							li.nav-item.active
-								a.nav-link(href='/checklist')  CheckList 
-							li.nav-item.active
-								a.nav-link(href='/')  Starting
-						li.nav-item.active
-							a.nav-link(href='/form/membership') Be a Member
 						li.nav-item.active
 							a.nav-link(href='/eventList').mr-5 Events
 						li.nav-item.active
-							a.nav-link(href='/firstAidTips/').mr-5 First Aid Tips
+							a.nav-link(href='/firstAidTips/').mr-5 First Aid
 						if globalMember
 							li.nav-item.active
-								a.nav-link(href='/memberEvents/').mr-5 Members events
-						  
+								a.nav-link(href='/memberEvents/').mr-5 Member's Event 	
+						ul.navbar-nav.mr-auto.navbar-right
 						li.nav-item.active
-							a.nav-link(href='/users/contacts') Contact 
+							a.nav-link(href='/timeline').mr-5 Timeline
 						li.nav-item.active
-							a.nav-link(href='/timeline').mr-5 Timeline					
-					ul.navbar-nav.mr-auto.navbar-right
-						if usersGlobal
-							li.nav-item.active
-								p.text.font-italic.font-weight-bold.ml-5.mb-2.pl-2 #{usersGlobal.name}
-								if globalMember
-									p.text.text-dark.font-italic.font-weight-bold.ml-5.mb-2.pl-2 #{globalMember[0].member_position}
-								a.btn.btn-outline-info.waves-effect.pl-2.ml-5.float-right(href='/logout/') Log out
-						else
-							li
-								button.btn.btn-outline-info.waves-effect.ml-0.float-md-right(type='button', data-toggle='modal', data-target='#modalLoginForm') Log In
-							li
-								a.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(href='/registerPage/') Sign Up
+							a.nav-link(href='/form/membership') Be a Member
+						li.nav-item.active
+							a.nav-link(href='/users/contacts') Contact
+				if usersGlobal
+							.text.text-dark.font-italic.font-weight-bold.mr-5.mb-2 #{usersGlobal.name}
+							a.btn.btn-outline-info.waves-effect.mr-0.float-right(href='/logout/') Log out
+						
+				else
+						button.btn.btn-outline-info.waves-effect.ml-0.float-md-right(type='button', data-toggle='modal', data-target='#modalLoginForm') Log In
+						a.btn.btn-outline-info.waves-effect.ml-2.flaot-md-right(href='/registerPage/') Sign Up
 						
 		
 		// -MODAL login and signup forms
@@ -129,15 +119,15 @@ footer.ftco-footer.ftco-section
 					h2.ftco-heading-2.mt-2 Associated Partners
 					ul.ftco-footer-social.list-unstyled.float-md-left.float-lft
 						li.ftco-animate
-							a(href='https://www.helpnepalapeal.org/')
+							a(href='#')
 								span
 									img.zoom(src='icon1.png')
 						li.ftco-animate
-							a(href='https://www.onemilliontrees.cs')
+							a(href='#')
 								span
 									img.zoom(src='icon2.png')
 						li.ftco-animate
-							a(href='https://www.saveoursoul.org')
+							a(href='#')
 								span
 									img.zoom(src='icon3.png')
 			.col-md

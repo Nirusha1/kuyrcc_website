@@ -122,8 +122,8 @@ router.get('/:id', function(req, res){
 router.post('/add_contact', function(req, res){
 	let x = new contactVariable();
 	x.Name = req.body.Name;
-	x.Email_id = req.body.Email_id;
-	x.Mobile_no = req.body.Mobile_no;
+	x.Email = req.body.Email_id;
+	x.Position = req.body.Position;
 
 	x.save(function(err){
 		if (err){
@@ -152,8 +152,8 @@ router.get('/edit/:id', ensureAuthenticated, function(req, res){
 router.post('/edit/:id', function(req, res){
 	let x= {};
 	x.Name=req.body.Name;
-	x.Email_id=req.body.Email_id;
-	x.Mobile_no=req.body.Mobile_no;
+	x.Email=req.body.Email_id;
+	x.Position=req.body.Position;
 
 	//console.log(req.body.event_name);
 

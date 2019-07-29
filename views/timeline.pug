@@ -1,61 +1,18 @@
 extends layout
 
 block content
+  h1.text-center Our Timeline
   section#timeline
-    h1 Our Timeline
     .demo-card-wrapper
-      .demo-card.demo-card--step1
-        .head
-          .number-box
-            span 01
-          h2
-            span.small June 2019
-            |  Technology
-        .body
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.
-          img(src='icon1.png',height = '250px', max-width = '1000px' )
-      .demo-card.demo-card--step1
-        .head
-          .number-box
-            span 02
-          h2
-            span.small Subtitle
-            |  Confidence
-        .body
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.
-          img(src='icon1.png',height = '250px', max-width = '1000px' )
-      .demo-card.demo-card--step1
-        .head
-          .number-box
-            span 03
-          h2
-            span.small Subtitle
-            |  Adaptation
-        .body
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.
-          img(src='icon1.png',height = '250px', max-width = '1000px')
-      .demo-card.demo-card--step1
-        .head
-          .number-box
-            span 04
-          h2
-            span.small May 2018
-            |  Consistency
-        .body
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.
-          img(src='icon1.png',height = '250px', max-width = '1000px')
-      .demo-card.demo-card--step1
-        .head
-          .number-box
-            span 05
-          h2
-            span.small June 2018
-            |  Conversion
-        .body
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.
-          img(src='icon1.png',height = '250px', max-width = '1000px')
+      each event, e in events_main
+        .demo-card.demo-card--step1
+          .head
+            .number-box
+              span #{e+1}
+            h2
+              span.small #{event.event_date}
+              |  #{event.event_name}
+          .body
+            p
+              | #{event.event_body}
+            img(src= event.event_image_path ,height = '250px', max-width = '1000px' )

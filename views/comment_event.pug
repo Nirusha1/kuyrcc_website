@@ -2,33 +2,30 @@ extends layout
 
 block content
   .container.row
-    .container.text-center.mt-4.col-9
+    .container.text-center.ml-4.col-14
       .row
-        .col
-          //displaying selected event information
-          h2 #{events.event_name}
-          img.img-fluid(src='/'+events.event_image_path+'', alt=events.event_name )
-          pre Location: #{events.event_location}   Date: #{events.event_date}
-        .col
+        .col-4
           if events.eventVolunteerNo
             a(href="/users/volunteers/CreateVolunteers/"+events._id)
-              button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') Join as Volunteer
-            
+              button.btn.btn-warning.float-md-right.ml-5.mt-5(style="height:40px; width:200px;",type='button') Join as Volunteer
+        .col-4
+          if events.eventVolunteerNo
+            a(href="/users/volunteers/ViewVolunteers/"+events._id)
+              button.btn.btn-warning.float-md-right.ml-5.mt-5(style="height:40px; width:200px;",type='button') View Volunteer Form
+        .col-4
           if usersGlobal
-              if usersGlobal.id == events.event_Userid
-                a(href="/users/eventList/edit/" + events._id)
-                  button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') Edit / Delete
-                if events.eventVolunteerNo
-                  a(href="/users/volunteers/ViewVolunteers/"+events._id)
-                    button.btn.btn-warning.float-md-right.ml-5.mt-5(type='button') View Volunteer Form
-      .row
-        .col
-          br
-          p.text-left.font-weight-bold Event Description: 
-          p #{events.event_body} 
-
-
-      br 
+            if usersGlobal.id == events.event_Userid
+              a(href="/users/eventList/edit/" + events._id)
+                button.btn.bt
+                  n-warning.float-md-right.ml-5.mt-5(style="height:40px; width:200px;",type='button') Edit / Delete
+                    
+      //displaying selected event information
+      h2 #{events.event_name}
+      img.img-fluid(style='height:500px; width:600px;' src='/'+events.event_image_path+'', alt=events.event_name )
+      pre Location: #{events.event_location}   Date: #{events.event_date}
+      br
+      p.font-weight-bold Event Description: 
+      p #{events.event_body} 
           
       //displaying section for adding new comment
       .container.text-center
@@ -50,12 +47,18 @@ block content
             .card-deck.mb-3
                 .card.body.text-center.pl-2.bg-light
                     h8.card-title.text-primary.text-left.font-weight-bold  #{comment.comment_userName}
-                    if !comment.comment_dateEdit
-                      p.card-text.text-dark.text-left Commented on: #{comment.comment_date} at: #{comment.comment_time}
-                    //showing edited date only if it has been updated
-                    if comment.comment_dateEdit
-                      p.card-text.text-dark.text-left Edited on: #{comment.comment_dateEdit} at: #{comment.comment_timeEdit}
-                    p(style=' width:500px;').card-text.text-dark.text-left #{comment.comment_body}
+                      .row
+                        .col-9
+                          if !comment.comment_dateEdit
+                            p.card-text.text-dark.text-left Commented on: #{comment.comment_date} at: #{comment.comment_time}
+                          //showing edited date only if it has been updated
+                          if comment.comment_dateEdit
+                            p.card-text.text-dark.text-left Edited on: #{comment.comment_dateEdit} at: #{comment.comment_timeEdit}
+                          p(style=' width:500px;').card-text.text-dark.text-left #{comment.comment_body}
+                        .col-3
+                          if globalMember
+                            if globalMember[0].member_position == "Admin" || globalMember[0].member_position == "Board Member"  
+                              a.btn.btn-danger.my-1(href='/users/eventList/comment/'+events._id +'/'+ comment._id+'/deleteComment/') DELETE
                       if usersGlobal
                         //if the same user who have commented logins he can edit or delete 
                         if usersGlobal.id == comment.comment_user_id
@@ -72,7 +75,7 @@ block content
                                     .container.justify-content-center
                                       input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
                                       //a.btn.btn-danger.delete-comment.mx-1(href="#", data-id = events._id) DELETE
-                                      a.btn.btn-danger.my-1(href='/users/eventList/comment/'+events._id +'/'+ comment._id+'/deleteComment/') DELETE
+                                      a.btn.btn-danger.my-1.ml-1(href='/users/eventList/comment/'+events._id +'/'+ comment._id+'/deleteComment/') DELETE
                       if usersGlobal
                         //for adding replying to the comment
                         form.form-inline(method='POST', action='/users/eventList/comment/' + events._id+'/addReply/')
@@ -86,12 +89,18 @@ block content
                           if comment._id == reply.reply_comment_id
                             .card.body.text-center.pl-2.mt-2.mx-4.bg-light
                               h8.card-title.text-left.text-primary.font-weight-bold #{reply.reply_userName}
-                              if !reply.reply_dateEdit
-                                p.card-text.text-dark.text-left Replied on: #{reply.reply_date} at: #{reply.reply_time}
-                              //showing edited date only if it has been updated
-                              if reply.reply_dateEdit
-                                p.card-text.text-dark.text-left Edited on: #{reply.reply_dateEdit} at: #{reply.reply_timeEdit}
-                              p(style=' width:500px;').card-text.text-dark.text-left #{reply.reply_body}
+                              .row
+                                .col-9
+                                  if !reply.reply_dateEdit
+                                    p.card-text.text-dark.text-left Replied on: #{reply.reply_date} at: #{reply.reply_time}
+                                  //showing edited date only if it has been updated
+                                  if reply.reply_dateEdit
+                                    p.card-text.text-dark.text-left Edited on: #{reply.reply_dateEdit} at: #{reply.reply_timeEdit}
+                                  p(style=' width:500px;').card-text.text-dark.text-left #{reply.reply_body}
+                                .col-3
+                                  if globalMember
+                                    if globalMember[0].member_position == "Admin" || globalMember[0].member_position == "Board Member"
+                                        a.btn.btn-danger(href='/users/eventList/comment/'+events._id +'/'+ reply._id+'/deleteReply/') DELETE
                                 //editing or deletion of the reply of individual replies
                                 if usersGlobal.id == reply.reply_user_id
                                   button.btn.btn-warning.float-md-right.m-2(type='button', data-toggle='collapse',data-target='#'+reply._id) Edit / Delete

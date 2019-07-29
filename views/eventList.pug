@@ -16,6 +16,11 @@ block content
             span
               | Events
               i.ion-ios-arrow-forward
+  if globalMember
+    if globalMember[0].member_position == "Admin"
+    .text-center.mt-5.pt-3
+      //a.btn.btn-outline-info.waves-effect.mr-0.float-right(href='/logout/' style='width:400px',type='button') Create Events
+      a.btn.btn-outline-info.waves-effect( style="text-align:center", href='/users/eventList/CreateEvent') Create Events
   .container.pt-3              
         .row.d-flex
           each event, j in events
@@ -42,9 +47,13 @@ block content
                     .col-sm
                         a.btn.btn-primary.my-2(href="/users/eventList/comment/" + event._id) Read more...
                     .col-sm
-                      if usersGlobal
-                        if usersGlobal.id == event.event_Userid
+                      if globalMember
+                        if globalMember[0].member_position == "Admin"
                           a.btn.btn-primary.my-2(href="/users/eventList/edit/" + event._id) Edit
+                      else
+                        if usersGlobal
+                          if usersGlobal.id == event.event_Userid 
+                            a.btn.btn-primary.my-2(href="/users/eventList/edit/" + event._id) Edit
 
 
             

@@ -7,14 +7,14 @@ let contactSchema = mongoose.Schema({
     required: true
 
   },
-  Email_id:{
+  Email:{
     type: String,
-    required: true
+    required: false
 
   },
-  Mobile_no:{
+  Position:{
     type: String,
-    required: true
+    required: false
   }
 
 });

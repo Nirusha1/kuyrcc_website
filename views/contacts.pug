@@ -1,22 +1,50 @@
 extends layout
 
 block content
-  .container.text-center.col-4
-    h1 CONTACTS  
-    a(href='/users/contacts/add_contact')
-      button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button') New Contact
-    each contact_list, i in contacts
-      .container.row.col-8
-        h5= contact_list.Name
-        h5= contact_list.Mobile_no
-        a(href="/users/contacts/edit/" + contact_list._id)= contact_list.Name
   
+  section.hero-wrap.hero-wrap-2.pb-5(style="background-image: url('../contacts_img.jpg');", data-stellar-background-ratio='0.5')
+    .overlay
+    .container
+      .row.no-gutters.slider-text.align-items-center.justify-content-center
+        .col-md.ftco-animate.text-center
+          h2.mb-3.bread Contact and Your FeedBack
+          p.breadcrumbs
+            span.mr-2
+              a(href='/frontend')
+                | Home 
+                i.ion-ios-arrow-forward
+            span
+              | contact
+              i.ion-ios-arrow-forward
+  
+  .container.text-center.mt-2
+    h4 The Board members of KUYRCC
+  if globalMember
+    if globalMember[0].member_position == "Admin"
+      .container.text-center.col-4.mt-3
+        a(href='/users/contacts/add_contact')
+          button.btn.btn-outline-info.waves-effect.mb-2.flaot-md-right(type='button') New Contact
+  .container.row.ml-5
+    each contact, i in contacts
+      .col-3.mt-2.mr-1
+        .card(style='width: 18rem;')
+          .card-body
+            h5.card-title #{contact.Name}
+            h6.card-subtitle.mb-2.text-muted #{contact.Email}
+            p.card-text
+              | #{contact.Position}
+            p.card-text
+              if globalMember
+                if globalMember[0].member_position == "Admin"          
+                  a(href="/users/contacts/edit/" + contact._id)
+                    button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button') EDIT/DELETE
+    
   br
-  if usersGlobal
-    if usersGlobal.position == "Admin"
-  .container.text-center.col-4
-    a(href='/users/contacts/checkQuestions')
-      button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button') Check Questions
+  if globalMember
+    if globalMember[0].member_position == "Admin"
+      .container.text-center.col-4
+        a(href='/users/contacts/checkQuestions')
+          button.btn.btn-outline-info.waves-effect.mr-0.flaot-md-right(type='button') Check Questions
       
   .container.text-center.col-8
     h3 Ask Question / Give Review
@@ -27,10 +55,10 @@ block content
       .container.row.justify-content-center.my-3
         textarea.form-control(id="comment_body",name='QuestionBody',rows='5',type='text',placeholder="Put your thoughts here")
       .container.row.justify-content-center.my-3
-        input.btn.btn-primary.mx-1(id="comment_submi_btn",type='submit', value="Send") 
-        
-        
-  
+        input.btn.btn-primary.mx-1(id="comment_submit_btn",type='submit', value="Send") 
+
+
+
   script.
     const emailField = document.getElementById('comment_email');
     const okButton = document.getElementById('comment_submit_btn');

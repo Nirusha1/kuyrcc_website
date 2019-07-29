@@ -1,31 +1,41 @@
 extends layout
 
 block content
-	.container.text-center.col-4
-		form(method='POST', action='/users/eventList/edit/' + events._id)
-			#form-group
-				label Event Title:
-				input.form-control(name='event_name',type='text',value= events.event_name)
-			#form-group
-				label Event Body:
-				textarea.form-control(name='event_body',rows='5',type='text')= events.event_body
-			#form-group
-				label Event Location:
-				textarea.form-control(name='event_location',rows='5',type='text')= events.event_location
-			#form-group
-				label Event Date:
-				textarea.form-control(name='event_date',rows='5',type='text')= events.event_date
-
-			#form-group
-				label Do you require the "VOLUNTEER CALLS" for your event?
-				
-				button.btn.btn-info(type='button', data-toggle='collapse', data-target='#demo') Yes
-				button.btn.ml-5.btn-info(type='button') No
-				#demo.collapse
+	.row
+		.container.text-center.col-9
+			form(method='POST', action='/users/eventList/edit/' + events._id)
+				#form-group
+					label Title:
+					input.form-control(name='event_name',type='text',value= events.event_name)
+				#form-group
+					label Informations:
+					input.form-control(name='event_body',rows='5',type='text',value= events.event_body)
+				if events.event_type == 'Main Event' || events.event_type == 'Small Event' || events.event_type == 'Meetings'
 					#form-group
-						label Maximum no. of volunteers requred:
-						textarea.form-control(name='eventVolunteerNo',row='5',type='text')
-					
-			.container.row.justify-content-center.my-3
-				input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
-				a.btn.btn-danger.delete-event.mx-1(href="#", data-id = events._id) DELETE  			
+						label Location:
+						input.form-control(name='event_location',rows='5',type='text',value= events.event_location)
+				if events.event_type == 'Main Event' || events.event_type == 'Small Event' || events.event_type == 'Meetings'
+					#form-group
+						label Date:
+						input.form-control(name='event_date',rows='5',type='text',value=events.event_date)
+				if events.event_type == 'Main Event' || events.event_type == 'Small Event' || events.event_type == 'Meetings'
+					#form-group
+						label Do you require the "VOLUNTEER CALLS" for your event?
+						button.btn.btn-info(type='button', data-toggle='collapse', data-target='#demo') Yes
+						button.btn.ml-5.btn-info(type='button') No
+						#demo.collapse
+							#form-group
+								label Maximum no. of volunteers requred:
+								input.form-control(name='eventVolunteerNo',row='5',type='text')
+				if  events.event_type == 'Small Event' || events.event_type == 'Meetings'
+					#form-group
+						label(id="event_delete") Delete this event after certain days of event?
+						button.btn.btn-info(id="event_delete_area",type='button', data-toggle='collapse', data-target='#dateToDelete') Yes
+						#dateToDelete.collapse
+							#form-group
+								label : Delete after 
+								textarea.form-control(name='event_dateToDelete',row='5',type='text')
+						
+				.container.row.justify-content-center.my-3
+					input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
+					a.btn.btn-danger.delete-event.mx-1(href="#", data-id = events._id) DELETE  			

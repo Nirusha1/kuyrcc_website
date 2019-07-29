@@ -5,6 +5,8 @@ const router =  express.Router();
 let memberVariable = require('../models/memberSchema');
 let dbvariable = require('../models/users');
 
+let membersVariable = require('../models/memberSchema');
+
 //storing data to memberSchema
 router.post('/form/',function(req,res){
 	let x = new memberVariable();
@@ -20,17 +22,47 @@ router.post('/form/',function(req,res){
 	x.member_year = req.body.member_year;
 	x.member_address = req.body.member_address;
 	x.member_position = "Non-Member"
-	x.save(function(err){
-		if(err){
-			console.log(err);
-			return;
-		}
-		else{
-			req.flash('success','MemberShip form Submitted.');
-			req.flash('danger','You must pay certain amount of money to actually be a member.');
-			res.redirect('/form/membership/');
-		}
-	});
+
+	req.checkBody('member_Fname','First name is required').notEmpty();
+	req.checkBody('member_Lname','Last name is required').notEmpty();
+	req.checkBody('member_email','Email is required').isEmail();
+	req.checkBody('member_phone','Phone is required').notEmpty();
+	req.checkBody('member_DOB','DOB is required').notEmpty();
+	req.checkBody('member_address','Address is required').notEmpty();
+
+	let errors = req.validationErrors();
+	if(errors){
+			if (req.user){
+				membersVariable.find({member_email:req.user.email},function(err,member){
+					console.log(member);
+					if (member.length==0){
+						member = 0
+					}
+				res.render('membershipForm',{
+					member:member,
+					errors:errors
+				});
+				});
+			}else{
+						res.render('membershipForm',{
+							member: 0,
+							errors:errors
+						});
+			}
+	}else{
+		x.save(function(err){
+		  if(err){
+		    console.log(err);
+		    return;
+		  }
+		  else{
+		    req.flash('success','MemberShip form Submitted.');
+		    req.flash('danger','You must pay certain amount of money to actually be a member.');
+		    res.redirect('/form/membership/');
+		  }
+		});
+	}
+
 });
 
 //showing list of members
@@ -51,6 +83,7 @@ router.get('/memberInfo/:id',ensureAdminAuthenticated("/members/memberList/"),fu
 	});
 });
 
+
 //editing membership FORM
 //updated contact submission route
 router.post('/editMemberForm/:id', function(req, res){
@@ -68,24 +101,43 @@ router.post('/editMemberForm/:id', function(req, res){
 	x.member_address = req.body.member_address;
 	x.member_position = req.body.member_position;
 
-	let query = {_id:req.params.id}
-	memberVariable.update(query, x, function(err){
-		if(err){
-			console.log(err);
-			return;
-		}
-		else{
-			let y = {};
-			y.position = req.body.member_position;
-			dbvariable.update({_id:req.user._id},y,function(err){
-				if(err){
-					console.log(err);
-					return;
-				}
+	req.checkBody('member_Fname','First name is required').notEmpty();
+	req.checkBody('member_Lname','Last name is required').notEmpty();
+	req.checkBody('member_email','Email is required').isEmail();
+	req.checkBody('member_phone','Phone is required').notEmpty();
+	req.checkBody('member_DOB','DOB is required').notEmpty();
+	req.checkBody('member_address','Address is required').notEmpty();
+
+	let errors = req.validationErrors();
+	if(errors){
+		memberVariable.findById({_id:req.params.id}, function(err, members){
+			res.render('memberInfo',{
+				members:members,
+				errors:errors
 			});
-			res.redirect('/members/memberlist/');
-		}
+		});
+	}else{
+
+		let query = {_id:req.params.id}
+		memberVariable.update(query, x, function(err){
+			if(err){
+				console.log(err);
+				return;
+			}
+			else{
+				let y = {};
+				y.position = req.body.member_position;
+				dbvariable.update({_id:req.user._id},y,function(err){
+					if(err){
+						console.log(err);
+						return;
+					}
+				});
+				res.redirect('/members/memberlist/');
+			}
+
 	});
+}
 
 });
 

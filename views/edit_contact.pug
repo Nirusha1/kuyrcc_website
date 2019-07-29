@@ -1,17 +1,18 @@
 extends layout
 
 block content
-  .container.text-center.col-4
-    form(method= 'POST', action= '/users/contacts/edit/' + contacts._id)
-      #form-group
-        label Name:
-          input.form-control(name = 'Name', type = 'text', value = contacts.Name)
-      #form-group
-        label Email id:
-          input.form-control(name = 'Email_id', type = 'text', value = contacts.Email_id)
-      #form-group
-        label Mobile No.:
-          input.form-control(name = 'Mobile_no', type = 'text', value = contacts.Mobile_no)
-      .container.row.justify-content-center.my-3
-        input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
-        a.btn.btn-danger.delete-contact.mx-1(href="#", data-id = contacts._id) DELETE
+  .row
+    .container.text-center.col-9
+      form(method= 'POST', action= '/users/contacts/edit/' + contacts._id)
+        #form-group
+          label Name:
+            input.form-control(name = 'Name', type = 'text', value = contacts.Name)
+        #form-group
+          label Email id:
+            input.form-control(name = 'Email_id', type = 'text', value = contacts.Email)
+        #form-group
+          label Position.:
+            input.form-control(name = 'Position', type = 'text', value = contacts.Position)
+        .container.row.justify-content-center.my-3
+          input.btn.btn-primary.mx-1(type='submit', value="UPDATE")
+          a.btn.btn-danger.delete-contact.mx-1(href="#", data-id = contacts._id) DELETE

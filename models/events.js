@@ -12,12 +12,12 @@ let eventSchema = mongoose.Schema({
 	},
 	event_name:{
 		type:String,
-		required: true
+		required: false
 	},
 
 	event_body:{
 		type:String,
-		required: true
+		required: false
 	},
 
 	event_location:{

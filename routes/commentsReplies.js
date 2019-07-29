@@ -25,7 +25,7 @@ router.get('/:id',  function(req, res){
 });
 
 //adding comment to the event
-router.post('/:eventId/addComment/', function(req, res){
+router.post('/:eventId/addComment/',ensureLoginAuthenticated('/frontend'), function(req, res){
 
 	let now = new Date();
 	let date = dateTime.format(now, 'ddd MMM DD YYYY');
@@ -110,7 +110,7 @@ router.get('/:eventID/:commentID/deleteComment', function(req, res){
 });
 
 //adding replies to comment of the event
-router.post('/:eventId/addReply/', function(req, res){
+router.post('/:eventId/addReply/',ensureLoginAuthenticated('/frontend'), function(req, res){
 	let now = new Date();
 	let date = dateTime.format(now, 'ddd MMM DD YYYY');
 	let time = dateTime.format(now, 'hh:mm A ');

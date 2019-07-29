@@ -39,118 +39,85 @@ block content
 	// - Jumbotron
 
 
-	p.text-info.font-weight-bold.font-italic ..............................................................................................................Current Date: #{moment().format('MM/DD/YYYY')}..................................................................................................
+	//p.text-info.font-weight-bold.font-italic ..............................................................................................................Current Date: #{moment().format('MM/DD/YYYY')}..................................................................................................
 
 	if events
-		.row
-			.container.col-10.text-center
-								a(href="/eventList")
-									.card-deck.mb-5
-										.card.bg-success
-											.card.body
-												.card
-													.row 
-														.col-4
-																a(href="/eventList")
-																	img.img-fluid(src='/red.jpg', alt="Main event name" )
-														.col-7
-															-var i = 0
-															each event, j in events
-																if event.event_type == "Main Event" || event.event_type == "Small Event"
-																	- i = i +1
-																	a(href="users/eventList/comment/" + event._id)
-																		.row
-																			.col
-																				p.card-title.text-danger #{event.event_name}
-																			.col
-																				p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
-																	if i == 4
-																		-break
-															a(href="/eventList")
-																button.btn.btn-warning.float-md-right(type='button') See More
-		.row
-			.container.col-10.text-center
-								a(href="/firstAidTips/")
-									.card-deck.mb-5
-										.card.bg-success
-											.card.body
-												.card
-													.row 
-														.col-4
-																a(href="/firstAidTips/")
-																	img.img-fluid(src='/red.jpg', alt="Main event name" )
-														.col-7
-															-var i = 0
-															each event, j in events
-																if event.event_type == "First Aid" 
-																	- i = i +1
-																	a(href="users/eventList/comment/" + event._id)
-																		.row
-																			.col
-																				p.card-title.text-danger #{event.event_name}
-																			.col
-																				p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
-																	if i == 4
-																		-break
-															a(href="/firstAidTips/")
-																button.btn.btn-warning.float-md-right(type='button') See More
-		if globalMember
-			.row
-				.container.col-10.text-center
-									a(href="/memberEvents")
+		.row.mt-4
+			.col
+				.container.col-9.text-center(style='width:410px;')
+									a(href="/eventList")
 										.card-deck.mb-5
 											.card.bg-success
-												.card.body
 													.card
-														.row 
-															.col-4
-																	a(href="/memberEvents")
-																		img.img-fluid(src='/red.jpg', alt="Main event name" )
-															.col-7
+															.row
+																	a(href="/eventList")
+																		img.img-fluid.ml-4.mt-1(style=' height:200px;' src='eventsMain.jpg', alt="Main event name" )
+															.row
 																-var i = 0
 																each event, j in events
-																	if event.event_type == "Meetings"
+																	if event.event_type == "Main Event" || event.event_type == "Small Event"
 																		- i = i +1
 																		a(href="users/eventList/comment/" + event._id)
 																			.row
-																				.col
-																					p.card-title.text-danger #{event.event_name}
-																				.col
-																					p.card-text.text-danger.text-right.font-italic  Date: #{event.event_date}
+																				.col.text-left.pl-5
+																					p.card-title.text-danger(style='width:150px;') #{event.event_name}
+																				.col.text-right
+																					p.card-title.text-danger.text-right.pr-2(style='width:150px;')  Date:#{event.event_date}
 																		if i == 4
 																			-break
-																a(href="/memberEvents/")
-																	button.btn.btn-warning.float-md-right(type='button') See More
-	// event sections
-	if events
-		.row
-			each event, j in events	
-				if event.event_date >= moment().format('MM/DD/YYYY')
-					.col-sm-6
-						a(href="/eventdetails")
-							.card-deck.mb-5
-								.card.bg-success
-									.card.body.text-center
-										.card.bg-dark
-											h8.card-title.text-warning.text-center.font-italic.font-weight-light By: #{event.event_UserName}
-												if usersGlobal
-													if usersGlobal.id == event.event_Userid
-														a(href="/users/eventList/edit/" + event._id)
-															button.btn.btn-warning.float-md-right(type='button') Edit / Delete
-											a(href="/eventdetails")
-												h3.card-title.text-danger #{event.event_name}
-												//p.card-text.text-light  #{event.event_body}
-												p.card-text.text-light.text-left.font-italic Location:  #{event.event_location}
-												p.card-text.text-light.text-left.font-italic  Date: #{event.event_date}
-												a(href="/users/eventList/comment/" + event._id)
-													button.btn.btn-warning.float-md-right(type='button') Leave a Comment
-												if event.eventVolunteerNo
-														p.card-text.text-success.text-left.font-italic.font-weight-bold Voulnteers on CALL
-														p.card-text.text-success.text-left.font-italic.font-weight-bold || Please fill the volunteer forms  asap
-											
+																a(href="/eventList")
+																	button.btn.btn-warning.float-md-right.ml-3(type='button') See More
+			.col
+				.container.col-10.text-center(style='width:410px;')
+									a(href="/firstAidTips/")
+										.card-deck.mb-5(style='height:460px;')
+											.card.bg-success
+													.card
+															.row
+																	a(href="/firstAidTips/")
+																		img.img-fluid.ml-4.mt-1(style=' height:200px;' src='firstaid.jpg', alt="firstaid event name" )
+															.row
+																-var i = 0
+																each event, j in events
+																	if event.event_type == "First Aid" 
+																		- i = i +1
+																		a(href="users/eventList/comment/" + event._id)
+																			.row
+																				.col.text-left.pl-5
+																					p.card-title.text-danger(style='width:150px;') #{event.event_name}
+																				.col.text-right
+																					p.card-title.text-danger.text-right.pr-2(style='width:150px;')  Date:#{event.event_date}
+																		if i == 4
+																			-break
+																a(href="/firstAidTips/")
+																	button.btn.btn-warning.float-md-right.ml-3(type='button') See More
 
-		br
-		br
+			if globalMember
+				if globalMember[0].member_position == "Admin"
+					.col
+						.container.col-10.text-center(style='width:410px;')
+											a(href="/memberEvents/")
+												.card-deck.mb-5(style='height:460px;')
+													.card.bg-success
+															.card
+																	.row
+																			a(href="/memberEvents/")
+																				img.img-fluid.ml-4.mt-1(style=' height:200px;' src='meeting.jpg', alt="meeting event name" )
+																	.row
+																		-var i = 0
+																		each event, j in events
+																			if event.event_type == "Meetings" 
+																				- i = i +1
+																				a(href="users/eventList/comment/" + event._id)
+																					.row
+																						.col.text-left.pl-5
+																							p.card-title.text-danger(style='width:150px;') #{event.event_name}
+																						.col.text-right
+																							p.card-title.text-danger.text-right.pr-2(style='width:150px;')  Date:#{event.event_date}
+																				if i == 4
+																					-break
+																		a(href="/memberEvents/")
+																			button.btn.btn-warning.float-md-right.float-button.ml-3(type='button') See More
 
 	// - Welcome Section
 	.container

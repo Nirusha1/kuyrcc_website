@@ -94,10 +94,19 @@ backend.get('/login', function(req, res){
 });
 
 //Timeline
-backend.get('/timeline', function(req, res){
-			res.render('timeline');
-			console.log("timeline");
-});
+backend.get('/timeline', function(req,res){
+  eventVariable.find({event_type:"Main Event"}, function(err,events_main){
+    if(err){
+      console.log(err);
+    }else{
+			console.log(events_main)
+      res.render('timeline',{
+        title:'Event main Lists',
+        events_main: events_main
+      });
+    }
+  })
+})
 
 //getting single user information
 backend.get("/users/detail/:id",function(req,res){
@@ -114,7 +123,7 @@ backend.post('/LogIn', function(req,res,next){
 	passport.authenticate('local',{
 		successRedirect:'/frontend',
 		successFlash:true,
-		failureRedirect:'/checklist',
+		failureRedirect:'/frontend',
 		failureFlash:true
 	})(req, res, next);
 });
@@ -140,7 +149,11 @@ backend.get('*', function(req,res,next){
 	else{
 		console.log('Express session is started');
 		membersVariable.find({member_email:req.user.email},function(err,member){
-			res.locals.globalMember = member;
+			if (member.length == 0){
+				res.locals.globalMember = false
+			}else{
+			res.locals.globalMember = member;}
+			console.log(member);
 		});
 	}
 	next();
@@ -148,7 +161,7 @@ backend.get('*', function(req,res,next){
 
 //home route
 backend.get('/', function(req, res){
-				res.render('index',{
+				res.render('frontend',{
 				title:'KUYRCC'
 	});
 });
@@ -354,7 +367,8 @@ backend.post('/registerPage/', function(req, res){
 				conpwd:conpwd,
 				user_auth:false,
 				random_number:random_number,
-				deleteDate: moment(currentDate).add(1,"days").format('MM/DD/YYYY')
+				deleteDate: moment(currentDate).add(1,"days").format('MM/DD/YYYY'),
+				position: "Non-member"
 			});
 
 			bcrypt.genSalt(10,function(err,salt){
@@ -432,6 +446,37 @@ global.ensureAdminAuthenticated= function(redirectTo){
 					return next();
 				else{ //if user is a member but not admin
 					req.flash('danger','Only Admin could access this');
+					res.redirect(redirectTo);}}
+			});
+		}else{ //if user hasnt login
+				req.flash('danger', 'Please Login');
+				res.redirect(redirectTo);}
+	}
+}
+
+//admin Access Control
+global.ensureLoginAuthenticated= function(redirectTo){
+		return function(req, res, next){
+			console.log(req.user);
+			console.log(req.user.user_auth);
+		if (req.isAuthenticated()){
+		membersVariable.find({member_email:req.user.email},function(err,member){ //search for member
+			if(member.length==0){ //if user is not member
+				if (req.user){
+					if (req.user.user_auth == true){
+						return next();}
+				}
+				req.flash('danger','Your Account is not verified');
+				res.redirect(redirectTo);
+			}else{
+				if (member[0].member_position == 'Member' ) //if the user is admin or board
+					return next();
+				if (member[0].member_position == 'Board Member' ) //if the user is admin or board
+					return next();
+				if (member[0].member_position == 'Admin' ) //if the user is admin or board
+					return next();
+				else{ //if user is a member but not admin
+					req.flash('danger','Your Account is not verified');
 					res.redirect(redirectTo);}}
 			});
 		}else{ //if user hasnt login

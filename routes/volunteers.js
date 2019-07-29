@@ -26,19 +26,36 @@ router.post('/CreateVolunteers/:eventid', function(req, res){
 	x.volunteer_fb=req.body.volunteer_fb;
 	x.volunteer_email=req.body.volunteer_email;
 
-	let query = {_id:req.params.id}
+	req.checkBody('volunteer_name','Name is required').notEmpty();
+	req.checkBody('volunteer_address','Address is required').notEmpty();
+	req.checkBody('volunteer_phone','Phone is required').notEmpty();
+	req.checkBody('volunteer_fb','Facebook Contact is required').notEmpty();
+	req.checkBody('volunteer_email','Email is required').isEmail();
 
-	x.save(function(err){
-		if(err){
-			console.log(err);
-			return;
-		}
-		else{
-			res.redirect('/users/eventList/comment/'+req.params.eventid);
-		}
+	let errors = req.validationErrors();
+	if(errors){
+		eventVariable.findById(req.params.eventid, function(err, events){
+		res.render('volunteers',{
+			events: events,
+			errors:errors
+		});
 	});
+	}else{
 
-	return;
+		let query = {_id:req.params.id}
+
+		x.save(function(err){
+			if(err){
+				console.log(err);
+				return;
+			}
+			else{
+				res.redirect('/');
+			}
+		});
+
+		return;
+	}
 });
 
 
