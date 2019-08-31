@@ -46,7 +46,7 @@ block content
 			.col
 				.container.col-9.text-center(style='width:410px;')
 									a(href="/eventList")
-										.card-deck.mb-5
+										.card-deck.mb-5(style='height:460px;')
 											.card.bg-success
 													.card
 															.row
@@ -93,7 +93,6 @@ block content
 																	button.btn.btn-warning.float-md-right.ml-3(type='button') See More
 
 			if globalMember
-				if globalMember[0].member_position == "Admin"
 					.col
 						.container.col-10.text-center(style='width:410px;')
 											a(href="/memberEvents/")

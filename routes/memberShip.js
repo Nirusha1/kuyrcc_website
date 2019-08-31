@@ -127,7 +127,7 @@ router.post('/editMemberForm/:id', function(req, res){
 			else{
 				let y = {};
 				y.position = req.body.member_position;
-				dbvariable.update({_id:req.user._id},y,function(err){
+				dbvariable.update({email:req.body.member_email},y,function(err){
 					if(err){
 						console.log(err);
 						return;
